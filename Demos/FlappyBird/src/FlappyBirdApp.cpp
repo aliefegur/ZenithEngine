@@ -11,7 +11,7 @@ FlappyBirdApp::FlappyBirdApp()
 	m_Bird(nullptr), m_PipeTexture(nullptr), m_PixelifySans(nullptr), m_Righteous(nullptr), m_UiRenderer(nullptr), m_TextShader(nullptr),
 	m_UiImageShader(nullptr)
 {
-	m_Window = new Window(800, 600, "Flappy Bird", false);
+	m_Window = new Window(800, 600, "DirectX 11 Context", false);
 
 	// Read high score
 	try
@@ -28,7 +28,7 @@ FlappyBirdApp::FlappyBirdApp()
 FlappyBirdApp::~FlappyBirdApp()
 {
 	// Shutdown ImGui
-	ImGuiManager::Shutdown();
+	/*ImGuiManager::Shutdown();
 
 	// Delete game objects
 	delete m_Bg;
@@ -65,7 +65,7 @@ FlappyBirdApp::~FlappyBirdApp()
 	delete m_TextShader;
 	delete m_UiImageShader;
 	delete m_UiRenderer;
-	delete m_Renderer;
+	delete m_Renderer;*/
 	delete m_Window;	
 }
 

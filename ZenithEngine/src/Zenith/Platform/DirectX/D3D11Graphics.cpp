@@ -68,13 +68,13 @@ namespace Zenith
 		// Create depth stencil texture
 		wrl::ComPtr<ID3D11Texture2D> pDepthStencil;
 		D3D11_TEXTURE2D_DESC descDepth = {};
-		descDepth.Width = 800u;	// NOTE: Width & height should match those of swap chain
-		descDepth.Height = 600u;
-		descDepth.MipLevels = 1u;
-		descDepth.ArraySize = 1u;
+		descDepth.Width = targetWindow.GetWidth();
+		descDepth.Height = targetWindow.GetHeight();
+		descDepth.MipLevels = 1;
+		descDepth.ArraySize = 1;
 		descDepth.Format = DXGI_FORMAT_D32_FLOAT;
-		descDepth.SampleDesc.Count = 1u;
-		descDepth.SampleDesc.Quality = 0u;
+		descDepth.SampleDesc.Count = 1;
+		descDepth.SampleDesc.Quality = 0;
 		descDepth.Usage = D3D11_USAGE_DEFAULT;
 		descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 		GFX_THROW(pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil));
