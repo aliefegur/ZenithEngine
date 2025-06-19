@@ -1,12 +1,14 @@
 #pragma once
 
 #include "Zenith/Utils/ZenithException.h"
-#include "Zenith/Renderer/OpenGLGraphics.h"
+#include "Zenith/Renderer/Graphics.h"
 #include "Zenith/Input/Keyboard.h"
 #include <Windows.h>
 
 namespace Zenith
 {
+	class Graphics;
+
 	class Window
 	{
 		friend class Win32WindowClass;
@@ -45,11 +47,11 @@ namespace Zenith
 		int GetWidth() const noexcept;
 		int GetHeight() const noexcept; 
 		std::string GetTitle() const noexcept;
-		OpenGLGraphics* GetGfx() const noexcept;
+		Graphics* GetGfx() const noexcept;
 		HWND GetHWND() const noexcept;
 
 		void ProcessEvents();
-		void CreateGraphicsContext();
+		void CreateGraphicsContext(Graphics::API targetApi);
 
 	private:
 		int m_Width, m_Height;
@@ -57,7 +59,7 @@ namespace Zenith
 		bool	m_IsFullscreen, 
 				m_IsShown,
 				m_HasFocus;
-		OpenGLGraphics* m_Graphics;
+		Graphics* m_Graphics;
 		Keyboard m_Keyboard;
 		HWND hWnd;
 

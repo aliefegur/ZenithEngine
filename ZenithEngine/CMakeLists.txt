@@ -20,7 +20,11 @@ file (GLOB ENGINE_PROJECT_SOURCES	src/**.h
 									src/Zenith/Utils/**.h
 									src/Zenith/Utils/**.cpp
 									src/Zenith/Input/**.h
-									src/Zenith/Input/**.cpp)
+									src/Zenith/Input/**.cpp
+									src/Zenith/Platform/OpenGL/**.h
+									src/Zenith/Platform/OpenGL/**.cpp
+									src/Zenith/Platform/DirectX/**.h
+									src/Zenith/Platform/DirectX/**.cpp)
 
 add_library(${PROJECT_NAME} ${ENGINE_PROJECT_SOURCES})
 
@@ -41,6 +45,8 @@ target_link_libraries(${PROJECT_NAME} PRIVATE	glad
 												stb
 												opengl32
 												imgui
+												d3d11
+												dxguid
 												${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/vendor/freetype/lib/freetype.lib
 												${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/vendor/openal/lib/OpenAL32.lib
 												${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/vendor/sndfile/lib/sndfile.lib)

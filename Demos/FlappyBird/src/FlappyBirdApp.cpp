@@ -76,8 +76,8 @@ void FlappyBirdApp::Start()
 	Input::SetupEventWindow(m_Window);
 
 	m_Window->Show();
-	m_Window->CreateGraphicsContext();
-
+	m_Window->CreateGraphicsContext(Graphics::API::D3D11);
+	/*
 	// Initialize ImGui
 	ImGuiManager::Initialize(m_Window);
 
@@ -140,13 +140,13 @@ void FlappyBirdApp::Start()
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
 	// Start theme music
-	m_ThemeAudioSource->Play(m_ThemeSong);
+	m_ThemeAudioSource->Play(m_ThemeSong);*/
 }
   
 void FlappyBirdApp::Update()
 {
 	ZenithApp::Update();
-
+	/*
 	// Game logic update	
 	if (m_GameRunning)
 	{
@@ -176,24 +176,25 @@ void FlappyBirdApp::Update()
 	}
 
 	m_Camera->Update();
-	
+	*/
 	// Render game
-	m_Window->GetGfx()->ClearBuffer(0.0f, 0.0f, 0.0f, 1.0f);
-
+	m_Window->GetGfx()->ClearBuffer(1.0f, 0.0f, 0.0f, 1.0f);
+	/*
 	RenderObjects();
 	RenderUI();
 
 #ifdef _DEBUG
 	RenderImGui();
 #endif
-
+	*/
 	m_Window->GetGfx()->EndFrame();
 	m_Window->ProcessEvents();
-
+	/*
 	m_Viewport->SetDimensions(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
 	m_Viewport->Apply();
 
 	m_ElapsedTime += Time::Delta();
+	*/
 }
 
 void FlappyBirdApp::StartGame()

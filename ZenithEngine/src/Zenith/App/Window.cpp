@@ -2,6 +2,9 @@
 
 #include "Window.h"
 #include "Zenith/App/AppManager.h"
+#include "Zenith/Renderer/Graphics.h"
+#include "Zenith/Platform/OpenGL/OpenGLGraphics.h"
+#include "Zenith/Platform/DirectX/D3D11Graphics.h"
 
 #include <imgui.h>
 #include <imgui_impl_win32.h>
@@ -54,7 +57,7 @@ namespace Zenith
 		}
 
 	private:
-		static constexpr LPCSTR s_WndClassName = "__AliEfeWindowClass__";
+		static constexpr LPCSTR s_WndClassName = "__ZenithEngineWin32WindowClass__";
 		static Win32WindowClass s_WndClass;
 		HINSTANCE m_hInst;
 	};
@@ -148,7 +151,7 @@ namespace Zenith
 	{
 		return m_title;
 	}
-	OpenGLGraphics* Window::GetGfx() const noexcept
+	Graphics* Window::GetGfx() const noexcept
 	{
 		return m_Graphics;
 	}
@@ -175,9 +178,25 @@ namespace Zenith
 		}
 	}
 
-	void Window::CreateGraphicsContext()
+	void Window::CreateGraphicsContext(Graphics::API targetApi)
 	{
-		m_Graphics = new OpenGLGraphics(this);
+		switch (targetApi)
+		{
+		case Zenith::Graphics::API::D3D11: 
+			m_Graphics = new D3D11Graphics(*this);
+			break;
+		case Zenith::Graphics::API::OpenGL:
+			m_Graphics = new OpenGLGraphics(*this);
+			break;
+		case Zenith::Graphics::API::None:
+			// TODO: Throw error
+			m_Graphics = nullptr;
+			break;
+		default:
+			// TODO: Throw error
+			m_Graphics = nullptr;
+			break;
+		}
 	}
 
 	LRESULT Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept

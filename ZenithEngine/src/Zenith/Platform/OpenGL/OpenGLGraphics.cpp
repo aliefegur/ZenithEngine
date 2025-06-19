@@ -11,9 +11,9 @@ namespace Zenith
 
 	extern int MAX_TEXTURES = 0;
 
-	OpenGLGraphics::OpenGLGraphics(Window* targetWindow)
+	OpenGLGraphics::OpenGLGraphics(Window& targetWindow)
 		:
-		m_TargetWindow(targetWindow)
+		Graphics(targetWindow)
 	{
 		PIXELFORMATDESCRIPTOR pfd = {
 			sizeof(PIXELFORMATDESCRIPTOR),
@@ -34,7 +34,7 @@ namespace Zenith
 			0, 0, 0
 		};
 
-		m_Device = GetDC(targetWindow->GetHWND());
+		m_Device = GetDC(targetWindow.GetHWND());
 
 		int letWindowChoosePixelFormat = ChoosePixelFormat(m_Device, &pfd);
 		SetPixelFormat(m_Device, letWindowChoosePixelFormat, &pfd);
@@ -55,7 +55,7 @@ namespace Zenith
 		}
 
 		// Initial viewport
-		glViewport(0, 0, targetWindow->GetWidth(), targetWindow->GetHeight());
+		glViewport(0, 0, targetWindow.GetWidth(), targetWindow.GetHeight());
 
 		// Enable V-Sync
 		wglSwapIntervalEXT(1);
@@ -74,7 +74,7 @@ namespace Zenith
 	{
 		wglMakeCurrent(nullptr, nullptr);
 		wglDeleteContext(m_Context);
-		ReleaseDC(m_TargetWindow->GetHWND(), m_Device);
+		ReleaseDC(m_TargetWindow.GetHWND(), m_Device);
 	}
 
 	void OpenGLGraphics::EndFrame()

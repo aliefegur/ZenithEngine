@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zenith/Renderer/Graphics.h"
 #include "Zenith/Utils/ZenithException.h"
 
 #include <Windows.h>
@@ -8,7 +9,7 @@ namespace Zenith
 {
 	class Window;
 
-	class OpenGLGraphics
+	class OpenGLGraphics : public Graphics
 	{
 	public:
 		class FramebufferSwapError : public ZenithException
@@ -20,18 +21,15 @@ namespace Zenith
 		};
 
 	public:
-		OpenGLGraphics(Window* targetWindow);
-		OpenGLGraphics(const OpenGLGraphics&) = delete;
-		OpenGLGraphics& operator=(const OpenGLGraphics&) = delete;
+		OpenGLGraphics(Window& targetWindow);
 		~OpenGLGraphics();
 
-		void EndFrame();
-		void ClearBuffer(float red, float green, float blue, float alpha) noexcept;
-		void DrawIndexed(unsigned int count);
+		void EndFrame() override;
+		void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;
+		void DrawIndexed(unsigned int count) override;
 
 	private:
 		HGLRC	m_Context;
 		HDC		m_Device;
-		Window*	m_TargetWindow;
 	};
 }
