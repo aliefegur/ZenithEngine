@@ -9,7 +9,9 @@ namespace Zenith
 {
 	class D3D11Graphics : public Graphics
 	{
+		friend class D3D11Bindable;
 	public:
+#pragma region Exceptions
 		class HrException : public ZenithException
 		{
 		public:
@@ -43,6 +45,7 @@ namespace Zenith
 		private:
 			std::string reason;
 		};
+#pragma endregion
 
 	public:
 		D3D11Graphics(Window& targetWindow);
@@ -60,16 +63,17 @@ namespace Zenith
 		ID3D11DepthStencilView* pDSV;
 
 #ifndef NDEBUG
-		DxgiInfoManager infoManager;
+		DxgiInfoManager m_InfoManager;
 #endif
 	};
 }
 
+// Preprocessor macros for error handling for graphical operations
 #define GFX_EXCEPT_NOINFO(hr) D3D11Graphics::HrException(__LINE__, __FILE__, (hr))
 #define GFX_THROW_NOINFO(hrcall) if (FAILED(hr = (hrcall))) throw GFX_EXCEPT_NOINFO(hr)
 #ifndef NDEBUG
 #define GFX_EXCEPT(hr) D3D11Graphics::HrException(__LINE__, __FILE__, (hr), infoManager.GetMessages())
-#define GFX_DEVICE_REMOVED_EXCEPT(hr) D3D11Graphics::DeviceRemovedException(__LINE__, __FILE__, (hr), infoManager.GetMessages())
+#define GFX_DEVICE_REMOVED_EXCEPT(hr) D3D11Graphics::DeviceRemovedException(__LINE__, __FILE__, (hr), m_InfoManager.GetMessages())
 #define GFX_THROW_INFO_ONLY(call) infoManager.Set(); (call); { auto v = infoManager.GetMessages(); if (!v.empty()) {throw D3D11Graphics::InfoException(__LINE__, __FILE__, v);} }
 #else
 #define GFX_EXCEPT(hr) GFX_EXCEPT_NOINFO((hr))
@@ -77,3 +81,9 @@ namespace Zenith
 #define GFX_THROW_INFO_ONLY(call) (call)
 #endif
 #define GFX_THROW(hrcall) if (FAILED(hr = (hrcall))) throw GFX_EXCEPT(hr)
+
+#ifdef NDEBUG
+#define INFO_MANAGER(gfx) HRESULT hr
+#else
+#define INFO_MANAGER(gfx) HRESULT hr; DxgiInfoManager& infoManager = GetInfoManager((gfx))
+#endif

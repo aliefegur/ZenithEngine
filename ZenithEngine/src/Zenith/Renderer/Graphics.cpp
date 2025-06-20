@@ -1,3 +1,4 @@
+#include "zenithpch.h"
 #include "Graphics.h"
 #include "Zenith/App/Window.h"
 

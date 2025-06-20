@@ -1,7 +1,7 @@
+#include "zenithpch.h"
 #include "DxgiInfoManager.h"
 #include "Zenith/App/Window.h"
 #include "D3D11Graphics.h"
-#include <memory>
 
 namespace Zenith
 {

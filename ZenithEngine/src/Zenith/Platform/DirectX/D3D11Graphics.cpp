@@ -1,3 +1,4 @@
+#include "zenithpch.h"
 #include "D3D11Graphics.h"
 #include "Zenith/App/Window.h"
 #include <wrl.h>

@@ -7,8 +7,11 @@
 #include <fstream>
 #include <regex>
 #include <map>
+#include <memory>
 
 #include <Windows.h>
+#include <d3d11.h>
+#include <d3dcompiler.h>
 
 #include <glad/glad.h>
 #include <glad/glad_wgl.h>
