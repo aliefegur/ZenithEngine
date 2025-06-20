@@ -22,7 +22,7 @@ namespace Zenith
 		Texture2D& operator=(const Texture2D&) = delete;
 		virtual ~Texture2D();
 
-		void Bind(Graphics* gfx) override;
+		virtual void Bind(Graphics* gfx) noexcept override = 0;
 
 		int GetWidth() const noexcept;
 		int GetHeight() const noexcept;

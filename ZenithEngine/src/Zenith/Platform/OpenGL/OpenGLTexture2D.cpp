@@ -20,7 +20,7 @@ namespace Zenith
 		glDeleteTextures(1, &m_TextureID);
 	}
 	
-	void OpenGLTexture2D::Bind(Graphics* gfx)
+	void OpenGLTexture2D::Bind(Graphics* gfx) noexcept
 	{
 		glBindTexture(GL_TEXTURE_2D, m_TextureID);
 	}

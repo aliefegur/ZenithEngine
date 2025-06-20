@@ -11,7 +11,7 @@ namespace Zenith
 		OpenGLTexture2D(Graphics* gfx, const std::string& imageFile, unsigned int pixelPerUnit = 100u, bool forceRGBA = false, Filter filter = Filter::Bilinear, Wrap wrap = Wrap::Clamp);
 		~OpenGLTexture2D();
 
-		void Bind(Graphics* gfx) override;
+		void Bind(Graphics* gfx) noexcept override;
 		uint32_t GetID() const noexcept;
 
 		void ChangeFilterMode(Filter f) override;

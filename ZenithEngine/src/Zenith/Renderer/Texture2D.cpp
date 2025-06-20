@@ -1,6 +1,8 @@
 #include "zenithpch.h"
 #include "Texture2D.h"
 #include "Zenith/Utils/ZenithException.h"
+#include <Zenith/Platform/OpenGL/OpenGLTexture2D.h>
+#include <Zenith/Platform/DirectX/D3D11Texture2D.h>
 
 namespace Zenith
 {
@@ -10,9 +12,10 @@ namespace Zenith
 		switch (gfx->GetAPIType())
 		{
 		case Graphics::API::D3D11:
+			return new D3D11Texture2D(gfx, pixelData, 1, 1, 3, 1, Filter::Point, Wrap::Clamp);
 			break;
 		case Graphics::API::OpenGL:
-			return new Texture2D(gfx, pixelData, 1, 1, 3, 1, Filter::Point, Wrap::Clamp);
+			return new OpenGLTexture2D(gfx, pixelData, 1, 1, 3, 1, Filter::Point, Wrap::Clamp);
 			break;
 		default:
 			// TODO: Throw exception
@@ -50,10 +53,6 @@ namespace Zenith
 
 	Texture2D::~Texture2D()
 	{	
-	}
-
-	void Texture2D::Bind(Graphics* gfx)
-	{
 	}
 
 	int Texture2D::GetWidth() const noexcept
@@ -97,17 +96,5 @@ namespace Zenith
 
 	void Texture2D::GenerateTextureFromBytes(unsigned char* pixels, int w, int h, int ch, Filter f, Wrap wrp)
 	{
-		constexpr GLint imgFormats[] = { GL_RED, GL_RG, GL_RGB, GL_RGBA };
-		GLint imgFormat = NULL;
-
-		if (ch >= 1 && ch <= 4) imgFormat = imgFormats[ch - 1];
-		else std::cout << "Unsupported image format! (" << ch << " channels)" << std::endl;	// TODO: Throw an exception
-
-		glGenTextures(1, &m_TextureID);
-		Bind(m_Gfx);
-		glTexImage2D(GL_TEXTURE_2D, 0, imgFormat, w, h, NULL, imgFormat, GL_UNSIGNED_BYTE, pixels);
-		ChangeFilterMode(f);
-		ChangeWrapMode(wrp);
-		glGenerateMipmap(GL_TEXTURE_2D);
 	}
 }
