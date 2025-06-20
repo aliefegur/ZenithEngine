@@ -3,13 +3,16 @@
 #include "Font.h"
 #include "../Stats.h"
 #include "Zenith/Utils/ZenithException.h"
+#include "../../Platform/OpenGL/OpenGLShader.h"
 
 namespace Zenith
 {
 	extern int				MAX_TEXTURES;
 	static constexpr size_t	QUAD_PER_BATCH = 1000;
 
-	UIRenderer::UIRenderer(Shader* textShader, Shader* imageShader)
+	UIRenderer::UIRenderer(Graphics* gfx, Shader* textShader, Shader* imageShader)
+		:
+		m_Gfx(gfx)
 	{
 		InitializeTextRenderer(textShader);
 		InitializeImageRenderer(imageShader);
@@ -454,7 +457,7 @@ namespace Zenith
 		glBufferSubData(GL_ARRAY_BUFFER, 0, size, (const void*)m_TextQuadBuffer);
 
 		// Activate shader pipeline
-		m_TextShader->Bind();
+		m_TextShader->Bind(m_Gfx);
 
 		// Bind texture layer
 		int* samplers = new int[m_TextTextureSlotIndex];
@@ -464,9 +467,11 @@ namespace Zenith
 			samplers[i] = i;
 		}
 
+		OpenGLShader* textShader = reinterpret_cast<OpenGLShader*>(m_TextShader);
+
 		// Update uniform variables
-		m_TextShader->SetUniformVec2("u_WindowSize", { static_cast<float>(m_WindowDimensions.x), static_cast<float>(m_WindowDimensions.y) });
-		m_TextShader->SetUniformIntArray("u_Samplers", samplers, m_TextTextureSlotIndex);
+		textShader->SetUniformVec2("u_WindowSize", { static_cast<float>(m_WindowDimensions.x), static_cast<float>(m_WindowDimensions.y) });
+		textShader->SetUniformIntArray("u_Samplers", samplers, m_TextTextureSlotIndex);
 
 		// Binding
 		glBindVertexArray(m_TextVAO);
@@ -491,7 +496,7 @@ namespace Zenith
 		glBufferSubData(GL_ARRAY_BUFFER, 0, size, (const void*)m_ImageQuadBuffer);
 
 		// Activate shader pipeline
-		m_ImageShader->Bind();
+		m_ImageShader->Bind(m_Gfx);
 
 		// Bind texture layer
 		int* samplers = new int[m_ImageTextureSlotIndex];
@@ -501,9 +506,11 @@ namespace Zenith
 			samplers[i] = i;
 		}
 
+		OpenGLShader* imageShader = reinterpret_cast<OpenGLShader*>(m_ImageShader);
+
 		// Update uniform variables
-		m_ImageShader->SetUniformVec2("u_WindowSize", { static_cast<float>(m_WindowDimensions.x), static_cast<float>(m_WindowDimensions.y) });
-		m_ImageShader->SetUniformIntArray("u_Samplers", samplers, m_ImageTextureSlotIndex);
+		imageShader->SetUniformVec2("u_WindowSize", { static_cast<float>(m_WindowDimensions.x), static_cast<float>(m_WindowDimensions.y) });
+		imageShader->SetUniformIntArray("u_Samplers", samplers, m_ImageTextureSlotIndex);
 
 		// Binding
 		glBindVertexArray(m_ImageVAO);

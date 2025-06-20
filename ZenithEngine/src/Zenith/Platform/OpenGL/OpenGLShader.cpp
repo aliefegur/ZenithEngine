@@ -19,6 +19,8 @@ namespace Zenith
 	}
 
 	OpenGLShader::OpenGLShader(Graphics* gfx, const std::string& vsFile, const std::string& fsFile)
+		:
+		Shader(gfx, vsFile, fsFile)
 	{
 		m_ProgramID = glCreateProgram();
 		AttachShader(vsFile, GL_VERTEX_SHADER);

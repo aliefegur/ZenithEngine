@@ -11,7 +11,7 @@ namespace Zenith
 	class BatchRenderer
 	{
 	public:
-		BatchRenderer(Shader* shader);
+		BatchRenderer(Graphics* gfx, Shader* shader);
 		~BatchRenderer();
 
 		void Begin(const glm::mat4& viewProjection = glm::mat4(1.0f));
@@ -33,6 +33,7 @@ namespace Zenith
 		uint32_t	*m_TextureSlots = nullptr,
 					m_TextureSlotIndex = 0;
 		Shader*		m_ShaderProgram = nullptr;
+		Graphics*	m_Gfx = nullptr;
 		glm::mat4	m_ViewProj{ 1.0f };
 	};
 }

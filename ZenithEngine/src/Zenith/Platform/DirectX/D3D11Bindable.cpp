@@ -15,6 +15,6 @@ namespace Zenith
 	
 	DxgiInfoManager& D3D11Bindable::GetInfoManager(D3D11Graphics* gfx) noexcept(!_DEBUG)
 	{
-		return gfx->m_InfoManager;
+		return gfx->infoManager;
 	}
 }

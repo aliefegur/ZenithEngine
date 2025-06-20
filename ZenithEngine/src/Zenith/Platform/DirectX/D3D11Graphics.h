@@ -63,7 +63,7 @@ namespace Zenith
 		ID3D11DepthStencilView* pDSV;
 
 #ifndef NDEBUG
-		DxgiInfoManager m_InfoManager;
+		DxgiInfoManager infoManager;
 #endif
 	};
 }
@@ -73,7 +73,7 @@ namespace Zenith
 #define GFX_THROW_NOINFO(hrcall) if (FAILED(hr = (hrcall))) throw GFX_EXCEPT_NOINFO(hr)
 #ifndef NDEBUG
 #define GFX_EXCEPT(hr) D3D11Graphics::HrException(__LINE__, __FILE__, (hr), infoManager.GetMessages())
-#define GFX_DEVICE_REMOVED_EXCEPT(hr) D3D11Graphics::DeviceRemovedException(__LINE__, __FILE__, (hr), m_InfoManager.GetMessages())
+#define GFX_DEVICE_REMOVED_EXCEPT(hr) D3D11Graphics::DeviceRemovedException(__LINE__, __FILE__, (hr), infoManager.GetMessages())
 #define GFX_THROW_INFO_ONLY(call) infoManager.Set(); (call); { auto v = infoManager.GetMessages(); if (!v.empty()) {throw D3D11Graphics::InfoException(__LINE__, __FILE__, v);} }
 #else
 #define GFX_EXCEPT(hr) GFX_EXCEPT_NOINFO((hr))

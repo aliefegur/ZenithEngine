@@ -21,7 +21,7 @@ namespace Zenith
 	class UIRenderer
 	{
 	public:
-		UIRenderer(Shader* textShader, Shader* imageShader);
+		UIRenderer(Graphics* gfx, Shader* textShader, Shader* imageShader);
 		~UIRenderer();
 
 		void Begin(const glm::ivec2& windowDimensions);
@@ -62,6 +62,7 @@ namespace Zenith
 					m_ImageTextureSlotIndex	= 0;
 		Shader		*m_TextShader			= nullptr,
 					*m_ImageShader			= nullptr;
+		Graphics*	m_Gfx					= nullptr;
 		glm::ivec2	m_WindowDimensions		= glm::ivec2{ 0 };
 	};
 }

@@ -1,6 +1,7 @@
 #include "zenithpch.h"
 #include "BatchRenderer.h"
 #include "Stats.h"
+#include "../Platform/OpenGL/OpenGLShader.h"
 
 #define DEFAULT_SCALE glm::vec3 { 1.0f, 1.0f, 0.0f }
 #define DEFAULT_ROTATION 0.0f
@@ -11,7 +12,9 @@ namespace Zenith
 	static constexpr size_t	QUAD_PER_BATCH = 1000;
 	extern int				MAX_TEXTURES;
 
-	BatchRenderer::BatchRenderer(Shader* shader)
+	BatchRenderer::BatchRenderer(Graphics* gfx, Shader* shader) 
+		: 
+		m_Gfx(gfx)
 	{
 		m_ShaderProgram = shader;
 
@@ -94,8 +97,10 @@ namespace Zenith
 		glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, size, (const char*)m_QuadBuffer);
 
+		OpenGLShader* shaderProgram = reinterpret_cast<OpenGLShader*>(m_ShaderProgram);
+
 		// Activate shader pipeline
-		m_ShaderProgram->Bind();
+		shaderProgram->Bind();
 
 		// Bind texture layer
 		int* samplers = new int[m_TextureSlotIndex];
@@ -106,8 +111,8 @@ namespace Zenith
 		}
 
 		// Update uniform variables
-		m_ShaderProgram->SetUniformMatrix4("u_ViewProj", m_ViewProj);
-		m_ShaderProgram->SetUniformIntArray("u_Samplers", samplers, m_TextureSlotIndex);
+		shaderProgram->SetUniformMatrix4("u_ViewProj", m_ViewProj);
+		shaderProgram->SetUniformIntArray("u_Samplers", samplers, m_TextureSlotIndex);
 
 		// Bind
 		glBindVertexArray(m_VAO);
