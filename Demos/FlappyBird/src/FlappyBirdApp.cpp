@@ -28,7 +28,7 @@ FlappyBirdApp::FlappyBirdApp()
 FlappyBirdApp::~FlappyBirdApp()
 {
 	// Shutdown ImGui
-	/*ImGuiManager::Shutdown();
+	ImGuiManager::Shutdown();
 
 	// Delete game objects
 	delete m_Bg;
@@ -65,7 +65,7 @@ FlappyBirdApp::~FlappyBirdApp()
 	delete m_TextShader;
 	delete m_UiImageShader;
 	delete m_UiRenderer;
-	delete m_Renderer;*/
+	delete m_Renderer;
 	delete m_Window;	
 }
 
@@ -76,11 +76,11 @@ void FlappyBirdApp::Start()
 	Input::SetupEventWindow(m_Window);
 
 	m_Window->Show();
-	m_Window->CreateGraphicsContext(Graphics::API::D3D11);
-	/*
+	m_Window->CreateGraphicsContext(Graphics::API::OpenGL);
+	
 	// Initialize ImGui
 	ImGuiManager::Initialize(m_Window);
-
+	/*
 	// Create rendering components
 	m_Shader = new Shader("res/shaders/sprite_vs.glsl", "res/shaders/sprite_fs.glsl");
 	m_TextShader = new Shader("res/shaders/ui_vs.glsl", "res/shaders/text_fs.glsl");
@@ -90,7 +90,7 @@ void FlappyBirdApp::Start()
 	m_Viewport = new Viewport(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
 	m_Camera = new Camera(m_Viewport);
 	m_Camera->zNear = 0.0f;
-
+	*/
 	// Loading textures
 	m_BackgroundTexture = new Texture2D("res/sprites/background-day.png");
 	m_PipeTexture = new Texture2D("res/sprites/pipe-green.png");
@@ -140,7 +140,7 @@ void FlappyBirdApp::Start()
 	std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
 	// Start theme music
-	m_ThemeAudioSource->Play(m_ThemeSong);*/
+	m_ThemeAudioSource->Play(m_ThemeSong);
 }
   
 void FlappyBirdApp::Update()
