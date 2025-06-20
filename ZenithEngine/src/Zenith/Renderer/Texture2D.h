@@ -2,26 +2,27 @@
 
 #include <string>
 #include <cstdint>
+#include "Bindable.h"
 
 namespace Zenith
 {
-	class Texture2D
+	class Texture2D : public virtual Bindable
 	{
 	public:
 		enum class Filter { Point = 0, Bilinear = 1, Trilinear = 2 };
 		enum class Wrap { Repeat = 0, Clamp = 1 };
 
 	public:
-		static Texture2D* LoadWhiteTexture();
+		static Texture2D* LoadWhiteTexture(Graphics* gfx);
 
 	public:
-		Texture2D(unsigned char* pixels, int width, int height, int channelCount, unsigned int pixelPerUnit = 100u, Filter filter = Filter::Bilinear, Wrap wrap = Wrap::Clamp);
-		Texture2D(const std::string& imageFile, unsigned int pixelPerUnit = 100u, bool forceRGBA = false, Filter filter = Filter::Bilinear, Wrap wrap = Wrap::Clamp);
+		Texture2D(Graphics* gfx, unsigned char* pixels, int width, int height, int channelCount, unsigned int pixelPerUnit = 100u, Filter filter = Filter::Bilinear, Wrap wrap = Wrap::Clamp);
+		Texture2D(Graphics* gfx, const std::string& imageFile, unsigned int pixelPerUnit = 100u, bool forceRGBA = false, Filter filter = Filter::Bilinear, Wrap wrap = Wrap::Clamp);
 		Texture2D(const Texture2D&) = delete;
 		Texture2D& operator=(const Texture2D&) = delete;
-		~Texture2D();
+		virtual ~Texture2D();
 
-		void Bind() const noexcept;
+		void Bind(Graphics* gfx) override;
 
 		int GetWidth() const noexcept;
 		int GetHeight() const noexcept;
@@ -29,22 +30,21 @@ namespace Zenith
 		unsigned int PixelPerUnit() const noexcept;
 		Filter GetFilterMode() const noexcept;
 		Wrap GetWrapMode() const noexcept;
-		uint32_t GetID() const noexcept;
 
 		void SetPixelPerUnit(int ppu) noexcept;
-		void ChangeFilterMode(Filter f) noexcept;
-		void ChangeWrapMode(Wrap w) noexcept;
+		virtual void ChangeFilterMode(Filter f);
+		virtual void ChangeWrapMode(Wrap w);
 
-	private:
-		void GenerateTextureFromBytes(unsigned char* pixels, int w, int h, int ch, Filter f, Wrap wrp);
+	protected:
+		virtual void GenerateTextureFromBytes(unsigned char* pixels, int w, int h, int ch, Filter f, Wrap wrp);
 
-	private:
+	protected:
 		int				m_Width,
 						m_Height,
 						m_ChannelCount;
 		unsigned int	m_PixelPerUnit;
 		Filter			m_Filter;
 		Wrap			m_Wrap;
-		uint32_t		m_TextureID = 0;
+		Graphics*		m_Gfx;
 	};
 }
