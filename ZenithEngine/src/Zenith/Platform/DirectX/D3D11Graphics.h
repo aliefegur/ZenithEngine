@@ -10,6 +10,7 @@ namespace Zenith
 	class D3D11Graphics : public Graphics
 	{
 		friend class D3D11Bindable;
+		friend class D3D11Renderer;
 	public:
 #pragma region Exceptions
 		class HrException : public ZenithException

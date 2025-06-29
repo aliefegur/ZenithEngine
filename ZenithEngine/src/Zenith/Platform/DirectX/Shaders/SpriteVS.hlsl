@@ -7,16 +7,16 @@ struct VSInput
 {
 	float3 position	: POSITION;
 	float4 color	: COLOR;
-	float2 texCoord	: TEXCOORD0;
-	float  texIndex	: TEXCOORD1;
+	float2 texCoord	: TEXCOORD;
+	float  texIndex	: TEXINDEX;
 };
 
 struct VSOut
 {
 	float4 pos		: SV_Position;
 	float4 color	: COLOR;
-	float2 texCoord	: TEXCOORD0;
-	float  texIndex	: TEXCOORD1;
+	float2 texCoord	: TEXCOORD;
+	float  texIndex	: TEXINDEX;
 };
 
 VSOut main(VSInput input)

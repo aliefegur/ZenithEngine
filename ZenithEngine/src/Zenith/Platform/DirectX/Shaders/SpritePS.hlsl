@@ -5,8 +5,8 @@
 struct PSInput
 {
 	float4 color	: COLOR;
-	float2 texCoord	: TEXCOORD0;
-	float  texIndex	: TEXCOORD1;
+	float2 texCoord	: TEXCOORD;
+	float  texIndex	: TEXINDEX;
 };
 
 Texture2D textures[MAX_TEXTURES] : register(t0);

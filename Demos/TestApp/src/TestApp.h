@@ -12,4 +12,5 @@ public:
 
 private:
 	Zenith::Shader* m_Shader;
+	Zenith::BatchRenderer* m_BatchRenderer;
 };
