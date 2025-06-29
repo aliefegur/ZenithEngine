@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 
 project(TestApp VERSION 1.0.0)
 
+set(ZENITH_DIR ${CMAKE_BINARY_DIR}/ZenithEngine/${CMAKE_CONFIGURATION_TYPES})
+set(TEST_APP_BIN_DIR ${PROJECT_BINARY_DIR}/${CMAKE_CONFIGURATION_TYPES})
+
 file(GLOB TEST_APP_SRC	src/**.h
 						src/**.cpp
 						src/**.rc)
@@ -17,14 +20,15 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ZenithEngine opengl32 d3dcompiler)
 add_custom_command(	TARGET ${PROJECT_NAME} POST_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
 					${CMAKE_SOURCE_DIR}/Demos/${PROJECT_NAME}/res/
-					${CMAKE_BINARY_DIR}/Demos/${PROJECT_NAME}/res/
+					${TEST_APP_BIN_DIR}/res/
 
 					TARGET ${PROJECT_NAME} POST_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
-					${CMAKE_BINARY_DIR}/ZenithEngine/res/
-					${CMAKE_BINARY_DIR}/Demos/${PROJECT_NAME}/res/
+					${ZENITH_DIR}/res/
+					${TEST_APP_BIN_DIR}/res/
 
+					TARGET ${PROJECT_NAME} POST_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
-					${CMAKE_BINARY_DIR}/ZenithEngine/dll/
-					${CMAKE_BINARY_DIR}/Demos/${PROJECT_NAME}/
+					${ZENITH_DIR}/dll/
+					${TEST_APP_BIN_DIR}/
 					)

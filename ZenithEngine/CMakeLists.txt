@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 
 project(ZenithEngine VERSION 0.0.1)
 
+# Zenith output directory for deriving projects
+set(ZENITH_DIR ${PROJECT_BINARY_DIR}/${CMAKE_CONFIGURATION_TYPES})
+
 # Libraries
 add_subdirectory(vendor/glad)
 add_subdirectory(vendor/stb)
@@ -47,9 +50,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE	glad
 												imgui
 												d3d11
 												dxguid
-												${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/vendor/freetype/lib/freetype.lib
-												${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/vendor/openal/lib/OpenAL32.lib
-												${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/vendor/sndfile/lib/sndfile.lib)
+												${PROJECT_SOURCE_DIR}/vendor/freetype/lib/freetype.lib
+												${PROJECT_SOURCE_DIR}/vendor/openal/lib/OpenAL32.lib
+												${PROJECT_SOURCE_DIR}/vendor/sndfile/lib/sndfile.lib)
 												
 target_precompile_headers(${PROJECT_NAME} PRIVATE src/zenithpch.h)
 
@@ -57,15 +60,15 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE src/zenithpch.h)
 add_custom_command(	TARGET ${PROJECT_NAME} POST_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
 					${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/res/
-					${CMAKE_BINARY_DIR}/${PROJECT_NAME}/res/
+					${ZENITH_DIR}/res/
 
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
 					${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/vendor/openal/dll/
-					${CMAKE_BINARY_DIR}/${PROJECT_NAME}/dll/
+					${ZENITH_DIR}/dll/
 
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
 					${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/vendor/sndfile/dll/
-					${CMAKE_BINARY_DIR}/${PROJECT_NAME}/dll/
+					${ZENITH_DIR}/dll/
 					)
 
 # Build HLSL Shaders
@@ -78,16 +81,13 @@ set_source_files_properties(${HLSL_PIXEL_SHADER_SOURCES} PROPERTIES ShaderType "
 set_source_files_properties(${HLSL_SHADER_SOURCES} PROPERTIES ShaderModel "4_0")
 
 set(COMPILED_SHADERS)
-
-message(${CMAKE_BINARY_DIR})
-
 foreach(SHADER ${HLSL_SHADER_SOURCES})
 	get_filename_component(FILE_WE ${SHADER} NAME_WE)
 	get_source_file_property(shadertype ${SHADER} ShaderType)
 	get_source_file_property(shadermodel ${SHADER} ShaderModel)
 
-	set(CSO_OUTPUT ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/res/shaders/${FILE_WE}.cso)
-    set(PDB_OUTPUT ${CMAKE_BINARY_DIR}/${PROJECT_NAME}/res/shaders/${FILE_WE}.pdb)
+	set(CSO_OUTPUT ${ZENITH_DIR}/res/shaders/${FILE_WE}.cso)
+    set(PDB_OUTPUT ${ZENITH_DIR}/res/shaders/${FILE_WE}.pdb)
 	
 	add_custom_command(	OUTPUT ${CSO_OUTPUT}
 						COMMAND fxc.exe /nologo /Emain /T${shadertype}_${shadermodel} $<IF:$<CONFIG:DEBUG>,/Od,/O1> /Zi /Fo ${CSO_OUTPUT} /Fd ${PDB_OUTPUT} ${SHADER}
@@ -99,3 +99,4 @@ foreach(SHADER ${HLSL_SHADER_SOURCES})
 endforeach(SHADER)
 
 add_custom_target(ZenithShaders ALL DEPENDS ${COMPILED_SHADERS})
+add_dependencies(${PROJECT_NAME} ZenithShaders)
