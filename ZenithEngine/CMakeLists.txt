@@ -15,8 +15,8 @@ file (GLOB ENGINE_PROJECT_SOURCES	src/**.h
 									src/Zenith/Audio/**.cpp
 									src/Zenith/Renderer/**.h
 									src/Zenith/Renderer/**.cpp
-									src/Zenith/Renderer/UI/**.h
-									src/Zenith/Renderer/UI/**.cpp
+									#src/Zenith/Renderer/UI/**.h
+									#src/Zenith/Renderer/UI/**.cpp
 									src/Zenith/Utils/**.h
 									src/Zenith/Utils/**.cpp
 									src/Zenith/Input/**.h

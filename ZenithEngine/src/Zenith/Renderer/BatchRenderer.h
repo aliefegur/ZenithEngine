@@ -12,22 +12,19 @@ namespace Zenith
 	{
 	public:
 		BatchRenderer(Graphics* gfx, Shader* shader);
-		~BatchRenderer();
+		virtual ~BatchRenderer();
 
 		void Begin(const glm::mat4& viewProjection = glm::mat4(1.0f));
-		void End();
+		virtual void End();
 
-		void DrawTexture(Texture2D* texture, const glm::mat4& transform, const glm::vec4& color = glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
+		virtual void DrawTexture(Texture2D* texture, const glm::mat4& transform, const glm::vec4& color = glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
 		void DrawTexture(Texture2D* texture, const glm::vec3& pos, const glm::vec3& scale, float zRotation, const glm::vec4& color = glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
 		void DrawTexture(Texture2D* texture, const glm::vec3& pos, const glm::vec3& scale, const glm::vec4& color = glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
 		void DrawTexture(Texture2D* texture, const glm::vec3& pos, float rotation, const glm::vec4& color = glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
 		void DrawTexture(Texture2D* texture, const glm::vec3& pos, const glm::vec4& color = glm::vec4{ 1.0f, 1.0f, 1.0f, 1.0f });
 
-	private:
-		uint32_t	m_VBO = 0,
-					m_VAO = 0,
-					m_EBO = 0,
-					m_IndexCount = 0;
+	protected:
+		uint32_t	m_IndexCount = 0;
 		Vertex		*m_QuadBuffer = nullptr,
 					*m_QuadbufferPtr = nullptr;
 		uint32_t	*m_TextureSlots = nullptr,
@@ -35,5 +32,6 @@ namespace Zenith
 		Shader*		m_ShaderProgram = nullptr;
 		Graphics*	m_Gfx = nullptr;
 		glm::mat4	m_ViewProj{ 1.0f };
+		static constexpr size_t	QUAD_PER_BATCH = 1000;
 	};
 }
