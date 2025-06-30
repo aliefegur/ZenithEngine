@@ -1,6 +1,6 @@
 cbuffer CameraBuffer : register(b0)
 {
-	matrix viewProj;
+	row_major matrix viewProj;
 };
 
 struct VSInput
