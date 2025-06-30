@@ -3,6 +3,7 @@
 #include "Zenith/Utils/ZenithException.h"
 #include "Zenith/Renderer/Graphics.h"
 #include "Zenith/Input/Keyboard.h"
+#include "Zenith/Input/EventListener.h"
 #include <Windows.h>
 
 namespace Zenith
@@ -37,6 +38,8 @@ namespace Zenith
 		Window(int width, int height, const std::string& title, bool fullScreen);
 		~Window();
 
+		void BindEventListener(EventListener* eventListener) noexcept;
+
 		void SetWidth(int width);
 		void SetHeight(int height);
 		void SetTitle(const std::string& title);
@@ -62,6 +65,7 @@ namespace Zenith
 		Graphics* m_Graphics;
 		Keyboard m_Keyboard;
 		HWND hWnd;
+		EventListener* m_EventListener;
 
 	private:
 		static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;

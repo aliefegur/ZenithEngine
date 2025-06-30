@@ -11,6 +11,7 @@
 
 #define	ZENITH_WND_EXCEPT(hr) Zenith::Window::HrException(__LINE__, __FILE__, hr)
 #define ZENITH_WND_LASTEXCEPT() Zenith::Window::HrException(__LINE__, __FILE__, GetLastError())
+#define LISTENER if (m_EventListener) m_EventListener
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -68,7 +69,7 @@ namespace Zenith
 #pragma region Window
 	Window::Window(int width, int height, const std::string& title, bool fullScreen)
 		:
-		m_Width(width), m_Height(height), m_title(title), m_IsFullscreen(fullScreen), m_Graphics(nullptr), m_HasFocus(false), m_IsShown(false)
+		m_Width(width), m_Height(height), m_title(title), m_IsFullscreen(fullScreen), m_Graphics(nullptr), m_HasFocus(false), m_IsShown(false), m_EventListener(nullptr)
 	{
 		constexpr DWORD windowStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX | WS_SYSMENU | CS_OWNDC;
 
@@ -105,6 +106,11 @@ namespace Zenith
 	Window::~Window()
 	{
 		DestroyWindow(hWnd);
+	}
+
+	void Window::BindEventListener(EventListener* eventListener) noexcept
+	{
+		m_EventListener = eventListener;
 	}
 
 	void Window::SetWidth(int width)
@@ -226,19 +232,23 @@ namespace Zenith
 			return true;
 		}
 
+		// TODO: Implement Mouse, Scroll, Window Move, Minimize, Maximize, etc. events
 		switch (msg)
 		{
 		case WM_CLOSE:	// Window closed
 			m_IsShown = false;
+			LISTENER->OnWindowClose(this);
 			AppManager::QuitApplication(0);
 			break;
 
 		case WM_SETFOCUS:	// Focus gained
 			m_HasFocus = true;
+			LISTENER->OnWindowFocusGained(this);
 			break;
 
 		case WM_KILLFOCUS:	// Focus lost
 			m_HasFocus = false;
+			LISTENER->OnWindowFocusLost(this);
 			break;
 
 		case WM_SIZE:	// Window resize
@@ -246,23 +256,28 @@ namespace Zenith
 			GetClientRect(hWnd, &wndRect);
 			m_Width = wndRect.right - wndRect.left;
 			m_Height = wndRect.bottom - wndRect.top;
+			LISTENER->OnWindowResize(this, m_Width, m_Height);
 			break;
-
 
 		/************* KEYBOARD MESSAGES *************/
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
 			if (!(lParam & 0x40000000) || m_Keyboard.IsAutorepeatEnabled())
+			{
 				m_Keyboard.OnKeyPress(static_cast<unsigned char>(wParam));
+				LISTENER->OnKeyPress(this, static_cast<unsigned char>(wParam));
+			}				
 			break;
 
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
 			m_Keyboard.OnKeyRelease(static_cast<unsigned char>(wParam));
+			LISTENER->OnKeyRelease(this, static_cast<unsigned char>(wParam));
 			break;
 
 		case WM_CHAR:
 			m_Keyboard.OnChar(static_cast<char>(wParam));
+			LISTENER->OnCharInput(this, static_cast<char>(wParam));
 			break;
 		/*********** END KEYBOARD MESSAGES ***********/
 

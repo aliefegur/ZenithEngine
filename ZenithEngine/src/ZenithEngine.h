@@ -7,6 +7,7 @@
 
 #include "Zenith/Input/Key.h"
 #include "Zenith/Input/Input.h"
+#include "Zenith/Input/EventListener.h"
 
 #include "Zenith/Renderer/BatchRenderer.h"
 #include "Zenith/Renderer/Camera.h"

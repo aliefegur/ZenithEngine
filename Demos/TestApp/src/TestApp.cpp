@@ -37,6 +37,8 @@ void TestApp::Start()
 	m_BatchRenderer = new OpenGLBatchRenderer(m_Window->GetGfx(), m_Shader);*/
 	
 	m_Texture = Texture2D::LoadWhiteTexture(m_Window->GetGfx());
+
+	m_Window->BindEventListener(this);
 }
 
 void TestApp::Update()
@@ -77,7 +79,10 @@ void TestApp::Update()
 
 	m_Window->GetGfx()->EndFrame();
 	m_Window->ProcessEvents();
+}
 
+void TestApp::OnWindowResize(Zenith::Window* window, int width, int height)
+{
 	m_Viewport->SetDimensions(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
 	m_Viewport->Apply(m_Window->GetGfx());
 }

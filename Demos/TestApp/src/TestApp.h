@@ -2,13 +2,16 @@
 
 #include <ZenithEngine.h>
 
-class TestApp : public Zenith::ZenithApp
+class TestApp : public Zenith::ZenithApp, public Zenith::EventListener
 {
 public:
 	TestApp();
 	~TestApp();
 	void Start() override;
 	void Update() override;
+
+private:
+	void OnWindowResize(Zenith::Window* window, int width, int height) override;
 
 private:
 	Zenith::Shader* m_Shader;
