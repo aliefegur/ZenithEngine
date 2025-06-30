@@ -3,6 +3,7 @@
 #include "Zenith/Utils/ZenithException.h"
 #include "Zenith/Renderer/Graphics.h"
 #include "Zenith/Input/Keyboard.h"
+#include "Zenith/Input/Mouse.h"
 #include "Zenith/Input/EventListener.h"
 #include <Windows.h>
 
@@ -65,6 +66,7 @@ namespace Zenith
 				m_HasFocus;
 		Graphics* m_Graphics;
 		Keyboard m_Keyboard;
+		Mouse m_Mouse;
 		HWND hWnd;
 		EventListener* m_EventListener;
 

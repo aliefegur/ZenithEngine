@@ -21,8 +21,8 @@ namespace Zenith
 		virtual void OnKeyRelease(Window* window, Key key) {}
 		virtual void OnCharInput(Window* window, char character) {}
 		virtual void OnMouseMove(Window* window, int x, int y) {}
-		virtual void OnMouseButtonPress(Window* window, int button, int x, int y) {}
-		virtual void OnMouseButtonRelease(Window* window, int button, int x, int y) {}
+		virtual void OnMouseButtonPress(Window* window, MouseButton button, int x, int y) {}
+		virtual void OnMouseButtonRelease(Window* window, MouseButton button, int x, int y) {}
 		virtual void OnMouseScroll(Window* window, int deltaX, int deltaY) {}
 		virtual void OnMouseEnter(Window* window) {}
 		virtual void OnMouseLeave(Window* window) {}

@@ -93,4 +93,13 @@ namespace Zenith
 		Quotes = 0xc0,
 		LessThan = 0xe2,
 	};
+	
+	enum class MouseButton
+	{
+		Left = 0x01,
+		Middle = 0x02,
+		Right = 0x04,
+		X1 = 0x05,
+		X2 = 0x06
+	};;
 }

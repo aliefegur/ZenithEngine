@@ -306,6 +306,83 @@ namespace Zenith
 			break;
 		/*********** END KEYBOARD MESSAGES ***********/
 
+		/*************** MOUSE MESSAGES **************/
+		case WM_MOUSEMOVE:
+		{
+			const POINTS pt = MAKEPOINTS(lParam);
+
+			// In client region
+			if (pt.x >= 0 && pt.x < m_Width && pt.y >= 0 && pt.y < m_Height)
+			{
+				m_Mouse.OnMouseMove(pt.x, pt.y);
+				LISTENER->OnMouseMove(this, pt.x, pt.y);
+
+				if (!m_Mouse.IsInWindow()) // Mouse entered the client region
+				{
+					SetCapture(hWnd);
+					m_Mouse.OnMouseEnter();
+					LISTENER->OnMouseEnter(this);
+				}
+			}
+
+			// Out of client region
+			else 
+			{
+				if (wParam & (MK_LBUTTON | MK_RBUTTON | MK_MBUTTON))
+				{
+					m_Mouse.OnMouseMove(pt.x, pt.y);
+					LISTENER->OnMouseMove(this, pt.x, pt.y);
+				}
+				// Button up
+				else
+				{
+					ReleaseCapture();
+					m_Mouse.OnMouseLeave();
+					LISTENER->OnMouseLeave(this);
+				}
+			}
+
+			break;
+		}
+
+		case WM_LBUTTONDOWN:
+		{
+			const POINTS pt = MAKEPOINTS(lParam);
+			m_Mouse.OnLeftPressed(pt.x, pt.y);
+			LISTENER->OnMouseButtonPress(this, MouseButton::Left, pt.x, pt.y);
+			break;
+		}
+		case WM_LBUTTONUP:
+		{
+			const POINTS pt = MAKEPOINTS(lParam);
+			m_Mouse.OnLeftReleased(pt.x, pt.y);
+			LISTENER->OnMouseButtonRelease(this, MouseButton::Left, pt.x, pt.y);
+			break;
+		}
+		case WM_RBUTTONDOWN:
+		{
+			const POINTS pt = MAKEPOINTS(lParam);
+			m_Mouse.OnRightPressed(pt.x, pt.y);
+			LISTENER->OnMouseButtonPress(this, MouseButton::Right, pt.x, pt.y);
+			break;
+		}
+		case WM_RBUTTONUP:
+		{
+			const POINTS pt = MAKEPOINTS(lParam);
+			m_Mouse.OnRightReleased(pt.x, pt.y);
+			LISTENER->OnMouseButtonRelease(this, MouseButton::Right, pt.x, pt.y);
+			break;
+		}
+
+		case WM_MOUSEWHEEL:
+		{
+			const POINTS pt = MAKEPOINTS(lParam);
+			const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+			m_Mouse.OnWheelDelta(pt.x, pt.y, delta);
+			LISTENER->OnMouseScroll(this, 0, delta);
+			break;
+		}
+		/************* END MOUSE MESSAGES ************/
 		default:
 			break;
 		}
