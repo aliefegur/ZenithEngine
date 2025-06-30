@@ -57,6 +57,7 @@ namespace Zenith
 		void CreateGraphicsContext(Graphics::API targetApi);
 
 	private:
+		int m_XPos, m_YPos;
 		int m_Width, m_Height;
 		std::string m_title;
 		bool	m_IsFullscreen, 

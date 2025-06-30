@@ -252,11 +252,36 @@ namespace Zenith
 			break;
 
 		case WM_SIZE:	// Window resize
+			if (wParam == SIZE_MINIMIZED)		// Window minimized
+			{
+				m_IsShown = false;
+				LISTENER->OnWindowMinimize(this);
+				break;
+			}
+			else if (wParam == SIZE_RESTORED)	// Window restored
+			{
+				m_IsShown = true;
+				LISTENER->OnWindowRestore(this);
+			}
+			else if (wParam == SIZE_MAXIMIZED)	// Window maximized
+			{
+				m_IsShown = true;
+				LISTENER->OnWindowMaximize(this);
+			}
+			break;
+
+			// Get the window size and notify the listener
 			RECT wndRect;
 			GetClientRect(hWnd, &wndRect);
 			m_Width = wndRect.right - wndRect.left;
 			m_Height = wndRect.bottom - wndRect.top;
 			LISTENER->OnWindowResize(this, m_Width, m_Height);
+			break;
+
+		case WM_MOVE:	// Window moved
+			m_XPos = (int)(short)LOWORD(lParam);
+			m_YPos = (int)(short)HIWORD(lParam);
+			LISTENER->OnWindowMove(this, m_XPos, m_YPos);
 			break;
 
 		/************* KEYBOARD MESSAGES *************/
@@ -265,14 +290,14 @@ namespace Zenith
 			if (!(lParam & 0x40000000) || m_Keyboard.IsAutorepeatEnabled())
 			{
 				m_Keyboard.OnKeyPress(static_cast<unsigned char>(wParam));
-				LISTENER->OnKeyPress(this, static_cast<unsigned char>(wParam));
+				LISTENER->OnKeyPress(this, static_cast<Key>(wParam));
 			}				
 			break;
 
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
 			m_Keyboard.OnKeyRelease(static_cast<unsigned char>(wParam));
-			LISTENER->OnKeyRelease(this, static_cast<unsigned char>(wParam));
+			LISTENER->OnKeyRelease(this, static_cast<Key>(wParam));
 			break;
 
 		case WM_CHAR:

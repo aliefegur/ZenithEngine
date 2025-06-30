@@ -19,4 +19,5 @@ private:
 	Zenith::Camera* m_Camera;
 	Zenith::Viewport* m_Viewport;
 	Zenith::Texture2D* m_Texture;
+	bool m_RenderingEnabled = true;
 };

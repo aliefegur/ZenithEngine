@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Key.h"
+
 namespace Zenith
 {
 	class EventListener
@@ -15,8 +17,8 @@ namespace Zenith
 		virtual void OnWindowResize(Window* window, int width, int height) {}
 		virtual void OnWindowFocusGained(Window* window) {}
 		virtual void OnWindowFocusLost(Window* window) {}
-		virtual void OnKeyPress(Window* window, unsigned char key) {}
-		virtual void OnKeyRelease(Window* window, unsigned char key) {}
+		virtual void OnKeyPress(Window* window, Key key) {}
+		virtual void OnKeyRelease(Window* window, Key key) {}
 		virtual void OnCharInput(Window* window, char character) {}
 		virtual void OnMouseMove(Window* window, int x, int y) {}
 		virtual void OnMouseButtonPress(Window* window, int button, int x, int y) {}
@@ -26,6 +28,7 @@ namespace Zenith
 		virtual void OnMouseLeave(Window* window) {}
 		virtual void OnWindowClose(Window* window) {}
 		virtual void OnWindowMinimize(Window* window) {}
+		virtual void OnWindowRestore(Window* window) {}
 		virtual void OnWindowMaximize(Window* window) {}
 		virtual void OnWindowMove(Window* window, int x, int y) {}
 	};

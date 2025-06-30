@@ -47,35 +47,39 @@ void TestApp::Update()
 
 	m_Camera->Update();
 
-	m_Window->GetGfx()->ClearBuffer(0.2f, 1.0f, 0.3f, 1.0f);
-
-	float _x = 2.5f;
-	float _h = 2.0f;
-	float scale = 0.15f;
-	int i = 0;
-
-	m_BatchRenderer->Begin(m_Camera->GetCombinedMatrix());
-	
-	for (float x = -_x; x < _x; x += scale)
+	// Rendering
 	{
-		for (float y = -_h; y < _h; y += scale)
+		m_Window->GetGfx()->ClearBuffer(0.2f, 1.0f, 0.3f, 1.0f);
+
+		float _x = 2.5f;
+		float _h = 2.0f;
+		float scale = 0.15f;
+		int i = 0;
+
+		m_BatchRenderer->Begin(m_Camera->GetCombinedMatrix());
+
+		for (float x = -_x; x < _x; x += scale)
 		{
-			m_BatchRenderer->DrawTexture(
-				m_Texture,
-				glm::vec3(x, y, 0.0f),
-				glm::vec3(scale, scale, 1.0f),
-				++i % 2 == 0 ? glm::vec4(0.5f, 0.5f, 0.5f, 1.0f) : glm::vec4(0.75f, 0.75f, 0.75f, 1.0f)
-			);
+			for (float y = -_h; y < _h; y += scale)
+			{
+				m_BatchRenderer->DrawTexture(
+					m_Texture,
+					glm::vec3(x, y, 0.0f),
+					glm::vec3(scale, scale, 1.0f),
+					++i % 2 == 0 ? glm::vec4(0.5f, 0.5f, 0.5f, 1.0f) : glm::vec4(0.75f, 0.75f, 0.75f, 1.0f)
+				);
+			}
 		}
+
+		m_BatchRenderer->End();
+
+		m_Window->GetGfx()->EndFrame();
 	}
-
-	m_BatchRenderer->End();
-
-	m_Window->GetGfx()->EndFrame();
+	
 	m_Window->ProcessEvents();
 }
 
-void TestApp::OnWindowResize(Zenith::Window* window, int width, int height)
+void TestApp::OnWindowResize(Window* window, int width, int height)
 {
 	m_Viewport->SetDimensions(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
 	m_Viewport->Apply(m_Window->GetGfx());
