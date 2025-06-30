@@ -13,4 +13,7 @@ public:
 private:
 	Zenith::Shader* m_Shader;
 	Zenith::BatchRenderer* m_BatchRenderer;
+	Zenith::Camera* m_Camera;
+	Zenith::Viewport* m_Viewport;
+	Zenith::Texture2D* m_Texture;
 };

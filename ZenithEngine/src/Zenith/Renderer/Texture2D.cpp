@@ -8,14 +8,14 @@ namespace Zenith
 {
 	Texture2D* Texture2D::LoadWhiteTexture(Graphics* gfx)
 	{
-		unsigned char pixelData[] = { 255, 255, 255 };
+		unsigned char pixelData[] = { 255, 255, 255, 255 };
 		switch (gfx->GetAPIType())
 		{
 		case Graphics::API::D3D11:
-			return new D3D11Texture2D(gfx, pixelData, 1, 1, 3, 1, Filter::Point, Wrap::Clamp);
+			return new D3D11Texture2D(gfx, pixelData, 1, 1, 4, 1, Filter::Point, Wrap::Clamp);
 			break;
 		case Graphics::API::OpenGL:
-			return new OpenGLTexture2D(gfx, pixelData, 1, 1, 3, 1, Filter::Point, Wrap::Clamp);
+			return new OpenGLTexture2D(gfx, pixelData, 1, 1, 4, 1, Filter::Point, Wrap::Clamp);
 			break;
 		default:
 			// TODO: Throw exception

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Graphics.h"
+
 namespace Zenith
 {
 	class Viewport
@@ -8,7 +10,7 @@ namespace Zenith
 		Viewport();
 		Viewport(int x, int y, int w, int h);
 
-		void Apply() const noexcept;
+		void Apply(Graphics* gfx) const noexcept;
 
 		int GetX() const noexcept;
 		int GetY() const noexcept;

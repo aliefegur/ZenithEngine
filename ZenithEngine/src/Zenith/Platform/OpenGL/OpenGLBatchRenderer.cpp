@@ -55,12 +55,18 @@ namespace Zenith
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
+		// Texture slots initialization
+		m_TextureSlots = new uint32_t[MAX_TEXTURES];
+		for (size_t i = 0; i < MAX_TEXTURES; i++)
+			m_TextureSlots[i] = 0;
+
 		// Delete indices array
 		delete[] indices;
 	}
 	
 	OpenGLBatchRenderer::~OpenGLBatchRenderer()
 	{
+		delete[] m_TextureSlots;
 		glDeleteVertexArrays(1, &m_VAO);
 		glDeleteBuffers(1, &m_VBO);
 		glDeleteBuffers(1, &m_EBO);
@@ -76,7 +82,7 @@ namespace Zenith
 		OpenGLShader* shaderProgram = reinterpret_cast<OpenGLShader*>(m_ShaderProgram);
 
 		// Activate shader pipeline
-		shaderProgram->Bind();
+		shaderProgram->Bind(m_Gfx);
 
 		// Bind texture layer
 		int* samplers = new int[m_TextureSlotIndex];

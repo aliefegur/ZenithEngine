@@ -31,7 +31,7 @@ namespace Zenith
 	{
 		glDeleteShader(m_ProgramID);
 	}
-	void OpenGLShader::Bind() const noexcept
+	void OpenGLShader::Bind(Graphics* gfx) noexcept
 	{
 		glUseProgram(m_ProgramID);
 	}

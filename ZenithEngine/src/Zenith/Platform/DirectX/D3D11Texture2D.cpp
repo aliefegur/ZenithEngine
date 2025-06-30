@@ -73,6 +73,16 @@ namespace Zenith
 		GFX_THROW(GetDevice(gfx)->CreateSamplerState(&samplerDesc, &pSampler));
 	}
 
+	ID3D11ShaderResourceView* D3D11Texture2D::GetShaderResourceView() const noexcept
+	{
+		return pTextureView;
+	}
+
+	ID3D11SamplerState* D3D11Texture2D::GetSamplerState() const noexcept
+	{
+		return pSampler;
+	}
+
 	void D3D11Texture2D::GenerateTextureFromBytes(unsigned char* pixels, int w, int h, int ch, Filter f, Wrap wrp)
 	{
 		D3D11Graphics* gfx = reinterpret_cast<D3D11Graphics*>(m_Gfx);

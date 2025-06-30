@@ -27,11 +27,11 @@ namespace Zenith
 		uint32_t	m_IndexCount = 0;
 		Vertex		*m_QuadBuffer = nullptr,
 					*m_QuadbufferPtr = nullptr;
-		uint32_t	*m_TextureSlots = nullptr,
-					m_TextureSlotIndex = 0;
+		uint32_t	m_TextureSlotIndex = 0;
 		Shader*		m_ShaderProgram = nullptr;
 		Graphics*	m_Gfx = nullptr;
 		glm::mat4	m_ViewProj{ 1.0f };
 		static constexpr size_t	QUAD_PER_BATCH = 1000;
+		static constexpr size_t	MAX_TEXTURES = 16;
 	};
 }

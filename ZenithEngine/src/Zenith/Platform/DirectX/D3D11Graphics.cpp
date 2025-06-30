@@ -89,6 +89,8 @@ namespace Zenith
 
 		// Bind depth stencil view to OM
 		pContext->OMSetRenderTargets(1u, &pTarget, pDSV);
+
+		m_CurrentAPI = Graphics::API::D3D11;
 	}
 	
 	D3D11Graphics::~D3D11Graphics()
@@ -126,7 +128,21 @@ namespace Zenith
 
 	void D3D11Graphics::DrawIndexed(unsigned int count)
 	{
+		pContext->OMSetRenderTargets(1, &pTarget, pDSV);
 		pContext->DrawIndexed(count, 0, 0);
+	}
+
+	void D3D11Graphics::ApplyViewport(const Viewport& viewport) noexcept
+	{
+		D3D11_VIEWPORT vp = {};
+		vp.TopLeftX = static_cast<float>(viewport.GetX());
+		vp.TopLeftY = static_cast<float>(viewport.GetY());
+		vp.Width = static_cast<float>(viewport.GetW());
+		vp.Height = static_cast<float>(viewport.GetH());
+		// TODO: Check out these values
+		vp.MinDepth = 0.0f;
+		vp.MaxDepth = 1.0f;
+		pContext->RSSetViewports(1, &vp);
 	}
 
 #pragma region HrException

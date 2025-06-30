@@ -17,6 +17,7 @@ namespace Zenith
 	private:
 		uint32_t	m_VBO = 0,
 					m_VAO = 0,
-					m_EBO = 0;
+					m_EBO = 0,
+					*m_TextureSlots = nullptr;
 	};
 }

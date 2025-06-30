@@ -1,5 +1,6 @@
 #include "zenithpch.h"
 #include "Viewport.h"
+#include "Zenith/Platform/DirectX/D3D11Graphics.h"
 
 namespace Zenith
 {
@@ -15,9 +16,20 @@ namespace Zenith
 	{
 	}
 
-	void Viewport::Apply() const noexcept
+	void Viewport::Apply(Graphics* gfx) const noexcept
 	{
-		glViewport(m_X, m_Y, m_W, m_H);
+		switch (gfx->GetAPIType())
+		{
+		case Graphics::API::OpenGL:
+			glViewport(m_X, m_Y, m_W, m_H);
+			break;
+		case Graphics::API::D3D11:
+			reinterpret_cast<D3D11Graphics*>(gfx)->ApplyViewport(*this);
+			break;
+		default:
+			// TODO: Throw an exception
+			break;
+		}
 	}
 
 	int Viewport::GetX() const noexcept

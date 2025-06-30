@@ -3,6 +3,7 @@
 #include "Zenith/Renderer/Graphics.h"
 #include "Zenith/Utils/ZenithException.h"
 #include "DxgiInfoManager.h"
+#include "Zenith/Renderer/Viewport.h"
 #include <d3d11.h>
 
 namespace Zenith
@@ -55,6 +56,8 @@ namespace Zenith
 		void EndFrame() override;
 		void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;
 		void DrawIndexed(unsigned int count) override;
+
+		void ApplyViewport(const Viewport& viewport) noexcept;
 
 	private:
 		ID3D11Device*			pDevice;

@@ -17,6 +17,9 @@ namespace Zenith
 		void ChangeFilterMode(Filter f) override;
 		void ChangeWrapMode(Wrap w) override;
 
+		ID3D11ShaderResourceView* GetShaderResourceView() const noexcept;
+		ID3D11SamplerState* GetSamplerState() const noexcept;
+
 	private:
 		void GenerateTextureFromBytes(unsigned char* pixels, int w, int h, int ch, Filter f, Wrap wrp) override;
 

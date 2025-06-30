@@ -68,6 +68,8 @@ namespace Zenith
 		glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &MAX_TEXTURES);
 
 		std::cout << "OpenGL Version: " << GLVersion.major << "." << GLVersion.minor << std::endl;
+
+		m_CurrentAPI = Graphics::API::OpenGL;
 	}
 
 	OpenGLGraphics::~OpenGLGraphics()

@@ -46,7 +46,7 @@ namespace Zenith
 	public:
 		OpenGLShader(Graphics* gfx, const std::string& vsFile, const std::string& fsFile);
 		~OpenGLShader();
-		void Bind() const noexcept;
+		void Bind(Graphics* gfx) noexcept;
 		uint32_t GetID() const noexcept;
 
 #pragma region UniformSetters

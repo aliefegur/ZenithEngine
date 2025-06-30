@@ -9,26 +9,17 @@
 
 namespace Zenith
 {
-	extern int MAX_TEXTURES;
-
 	BatchRenderer::BatchRenderer(Graphics* gfx, Shader* shader) 
 		: 
 		m_Gfx(gfx)
 	{
 		m_ShaderProgram = shader;
-
 		m_QuadBuffer = new Vertex[QUAD_PER_BATCH];
-
-		// Texture slots initialization
-		m_TextureSlots = new uint32_t[MAX_TEXTURES];
-		for (size_t i = 0; i < MAX_TEXTURES; i++)
-			m_TextureSlots[i] = 0;
 		m_TextureSlotIndex = 0;
 	}
 
 	BatchRenderer::~BatchRenderer()
 	{
-		delete[] m_TextureSlots;
 		delete[] m_QuadBuffer;
 	}
 

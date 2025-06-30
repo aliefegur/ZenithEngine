@@ -1,6 +1,7 @@
 #pragma once
 
 #include "D3D11Renderer.h"
+#include "D3D11Texture2D.h"
 #include <Zenith/Renderer/BatchRenderer.h>
 
 namespace Zenith
@@ -19,5 +20,7 @@ namespace Zenith
 		ID3D11Buffer		*pVertexBuffer,
 							*pIndexBuffer;
 		ID3D11InputLayout	*pInputLayout;
+		ID3D11Buffer		*pConstantBuffer;
+		D3D11Texture2D		*pTextureSlots[MAX_TEXTURES];
 	};
 }
