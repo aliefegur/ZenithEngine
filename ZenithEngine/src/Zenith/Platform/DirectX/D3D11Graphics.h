@@ -57,7 +57,7 @@ namespace Zenith
 		void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;
 		void DrawIndexed(unsigned int count) override;
 
-		void ApplyViewport(const Viewport& viewport) noexcept;
+		void ApplyViewport(const Viewport& viewport);
 
 	private:
 		ID3D11Device*			pDevice;

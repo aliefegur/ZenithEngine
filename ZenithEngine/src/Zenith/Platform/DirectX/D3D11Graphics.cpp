@@ -132,8 +132,44 @@ namespace Zenith
 		pContext->DrawIndexed(count, 0, 0);
 	}
 
-	void D3D11Graphics::ApplyViewport(const Viewport& viewport) noexcept
+	void D3D11Graphics::ApplyViewport(const Viewport& viewport)
 	{
+		HRESULT hr;
+
+		// Release resources
+		if (pTarget) { pTarget->Release(); pTarget = nullptr; }
+		if (pDSV) { pDSV->Release();    pDSV = nullptr; }
+
+		// Swap chain resize
+		GFX_THROW(pSwap->ResizeBuffers(0, viewport.GetW(), viewport.GetH(), DXGI_FORMAT_R8G8B8A8_UNORM, NULL));
+
+		// Recreate render target view
+		ID3D11Texture2D* pBackBuffer = nullptr;
+		GFX_THROW(pSwap->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer)));
+		GFX_THROW(pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &pTarget));
+		pBackBuffer->Release();
+
+		// Recreate depth stencil view
+		D3D11_TEXTURE2D_DESC descDepth = {};
+		descDepth.Width = viewport.GetW();
+		descDepth.Height = viewport.GetH();
+		descDepth.MipLevels = 1;
+		descDepth.ArraySize = 1;
+		descDepth.Format = DXGI_FORMAT_D32_FLOAT;
+		descDepth.SampleDesc.Count = 1;
+		descDepth.SampleDesc.Quality = 0;
+		descDepth.Usage = D3D11_USAGE_DEFAULT;
+		descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+		ID3D11Texture2D* pDepthStencil = nullptr;
+		GFX_THROW(pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil));
+		D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
+		descDSV.Format = DXGI_FORMAT_D32_FLOAT;
+		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		descDSV.Texture2D.MipSlice = 0;
+		GFX_THROW(pDevice->CreateDepthStencilView(pDepthStencil, &descDSV, &pDSV));
+		pDepthStencil->Release();
+
+		// Update viewport
 		D3D11_VIEWPORT vp = {};
 		vp.TopLeftX = static_cast<float>(viewport.GetX());
 		vp.TopLeftY = static_cast<float>(viewport.GetY());

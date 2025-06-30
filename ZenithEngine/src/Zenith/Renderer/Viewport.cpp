@@ -50,7 +50,7 @@ namespace Zenith
 	}
 	float Viewport::GetAspectRatio() const noexcept
 	{
-		return static_cast<float>(m_W) / m_H;
+		return static_cast<float>(m_W) / static_cast<float>(m_H);
 	}
 
 	void Viewport::SetDimensions(int x, int y, int w, int h)
