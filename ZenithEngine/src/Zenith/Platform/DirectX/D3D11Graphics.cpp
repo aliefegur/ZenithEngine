@@ -90,6 +90,17 @@ namespace Zenith
 		// Bind depth stencil view to OM
 		pContext->OMSetRenderTargets(1u, &pTarget, pDSV);
 
+		// Create initial viewport
+		D3D11_VIEWPORT vp = {};
+		vp.TopLeftX = static_cast<float>(0);
+		vp.TopLeftY = static_cast<float>(0);
+		vp.Width = static_cast<float>(targetWindow.GetWidth());
+		vp.Height = static_cast<float>(targetWindow.GetHeight());
+		// TODO: Check out these values
+		vp.MinDepth = 0.0f;
+		vp.MaxDepth = 1.0f;
+		pContext->RSSetViewports(1, &vp);
+
 		m_CurrentAPI = Graphics::API::D3D11;
 	}
 	

@@ -49,9 +49,9 @@ void TestApp::Update()
 
 	m_Window->GetGfx()->ClearBuffer(0.2f, 1.0f, 0.3f, 1.0f);
 
-	float _x = 2.55f;
-	float _h = 1.95f;
-	float scale = 0.1f;
+	float _x = 2.5f;
+	float _h = 2.0f;
+	float scale = 0.15f;
 	int i = 0;
 
 	m_BatchRenderer->Begin(m_Camera->GetCombinedMatrix());
@@ -63,17 +63,11 @@ void TestApp::Update()
 			m_BatchRenderer->DrawTexture(
 				m_Texture,
 				glm::vec3(x, y, 0.0f),
-				++i % 2 == 0 ? glm::vec4(1.0f, 0.0f, 0.0f, 1.0f) : glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)
+				glm::vec3(scale, scale, 1.0f),
+				++i % 2 == 0 ? glm::vec4(0.5f, 0.5f, 0.5f, 1.0f) : glm::vec4(0.75f, 0.75f, 0.75f, 1.0f)
 			);
 		}
 	}
-
-	m_BatchRenderer->DrawTexture(
-		m_Texture,
-		glm::vec3(0.0f, 0.0f, 0.0f),
-		glm::vec3(2.0f, 2.0f, 1.0f),
-		glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)
-	);
 
 	m_BatchRenderer->End();
 
