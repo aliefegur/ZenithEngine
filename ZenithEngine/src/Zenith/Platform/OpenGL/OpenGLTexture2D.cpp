@@ -7,6 +7,7 @@ namespace Zenith
 		:
 		Texture2D(gfx, pixels, width, height, channelCount, pixelPerUnit, filter, wrap)
 	{
+		GenerateTextureFromBytes(pixels, width, height, channelCount, filter, wrap);
 	}
 	
 	OpenGLTexture2D::OpenGLTexture2D(Graphics* gfx, const std::string& imageFile, unsigned int pixelPerUnit, bool forceRGBA, Filter filter, Wrap wrap)

@@ -28,7 +28,6 @@ void TestApp::Start()
 	m_Window->Show();
 	
 	m_Window->CreateGraphicsContext(Graphics::API::D3D11);
-
 	m_Shader = new D3D11Shader(m_Window->GetGfx(), "res/shaders/SpriteVS.cso", "res/shaders/SpritePS.cso");
 	m_BatchRenderer = new D3D11BatchRenderer(m_Window->GetGfx(), m_Shader);
 	

@@ -143,7 +143,7 @@ namespace Zenith
 		// Draw indexed triangles
 		gfx->DrawIndexed(m_IndexCount);
 
-        BatchRenderer::End();  
+        BatchRenderer::End();
     }
 	
 	void D3D11BatchRenderer::DrawTexture(Texture2D* _texture, const glm::mat4& transform, const glm::vec4& color)

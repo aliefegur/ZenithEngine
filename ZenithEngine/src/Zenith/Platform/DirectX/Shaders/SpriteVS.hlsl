@@ -6,15 +6,15 @@ cbuffer CameraBuffer : register(b0)
 struct VSInput
 {
 	float3 position	: POSITION;
-	float4 color	: COLOR;
+	float4 color		: COLOR;
 	float2 texCoord	: TEXCOORD;
 	float  texIndex	: TEXINDEX;
 };
 
 struct VSOut
 {
-	float4 pos		: SV_Position;
-	float4 color	: COLOR;
+	float4 pos			: SV_Position;
+	float4 color		: COLOR;
 	float2 texCoord	: TEXCOORD;
 	float  texIndex	: TEXINDEX;
 };
