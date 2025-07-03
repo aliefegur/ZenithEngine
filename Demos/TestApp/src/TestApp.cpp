@@ -74,6 +74,13 @@ void TestApp::Update()
 
 		m_BatchRenderer->End();
 
+		ImGui::Begin("Rendering Stats");
+		ImGui::Text("API: %s", m_Window->GetGfx()->GetAPIType() == Graphics::API::D3D11 ? "D3D11" : "OpenGL");
+		ImGui::Text("Verts: %d", RendererStats::GetVertexCount());
+		ImGui::Text("Tris: %d", RendererStats::GetTriangleCount());
+		ImGui::Text("Batches: %d", RendererStats::GetBatchCount());
+		ImGui::End();
+
 		m_Window->GetGfx()->EndFrame();
 	}
 	
