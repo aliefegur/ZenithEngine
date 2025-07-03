@@ -57,8 +57,14 @@ namespace Zenith
 		void EndFrame() override;
 		void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;
 		void DrawIndexed(unsigned int count) override;
-
+		
 		void ApplyViewport(const Viewport& viewport);
+		
+	protected:
+		void InitializeImGui() override;
+		void NewImGuiFrame() override;
+		void RenderImGui() override;
+		void ShutdownImGui() override;
 
 	private:
 		ID3D11Device*			pDevice;

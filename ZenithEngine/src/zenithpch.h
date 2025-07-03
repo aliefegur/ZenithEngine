@@ -1,3 +1,5 @@
+#include "Zenith/API.h"
+
 #include <cstdlib>
 #include <cstdint>
 #include <chrono>
@@ -20,6 +22,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+#include <imgui.h>
+#include <imgui_impl_opengl3.h>
+#ifdef ZENITH_PLATFORM_WINDOWS
+#include <imgui_impl_win32.h>
+#include <imgui_impl_dx11.h>
+#else
+#include <imgui_impl_glfw.h>
+#endif
 
 #include <stb/stb_image.h>
 

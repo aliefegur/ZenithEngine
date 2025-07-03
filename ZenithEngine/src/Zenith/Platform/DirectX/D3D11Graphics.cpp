@@ -102,6 +102,8 @@ namespace Zenith
 		pContext->RSSetViewports(1, &vp);
 
 		m_CurrentAPI = Graphics::API::D3D11;
+
+		InitializeImGui();
 	}
 	
 	D3D11Graphics::~D3D11Graphics()
@@ -115,6 +117,8 @@ namespace Zenith
 
 	void D3D11Graphics::EndFrame()
 	{
+		Graphics::EndFrame();
+
 		HRESULT hr;
 
 		if (FAILED(hr = pSwap->Present(1u, NULL)))
@@ -132,6 +136,8 @@ namespace Zenith
 	
 	void D3D11Graphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept
 	{
+		Graphics::ClearBuffer(red, green, blue, alpha);
+
 		const float color[] = { red, green, blue, alpha };
 		pContext->ClearRenderTargetView(pTarget, color);
 		pContext->ClearDepthStencilView(pDSV, D3D11_CLEAR_DEPTH, 1.0f, 0u);
@@ -191,6 +197,39 @@ namespace Zenith
 		vp.MaxDepth = 1.0f;
 		pContext->RSSetViewports(1, &vp);
 	}
+
+#pragma region ImGui Functions
+	void D3D11Graphics::InitializeImGui()
+	{
+		Graphics::InitializeImGui();
+
+		ImGui_ImplWin32_Init(m_TargetWindow.GetHWND());
+		ImGui_ImplDX11_Init(pDevice, pContext);
+	}
+
+	void D3D11Graphics::NewImGuiFrame()
+	{
+		ImGui_ImplDX11_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+
+		Graphics::NewImGuiFrame();
+	}
+
+	void D3D11Graphics::RenderImGui()
+	{
+		Graphics::RenderImGui();
+
+		ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+	}
+
+	void D3D11Graphics::ShutdownImGui()
+	{
+		ImGui_ImplDX11_Shutdown();
+		ImGui_ImplWin32_Shutdown();
+
+		Graphics::ShutdownImGui();
+	}
+#pragma endregion
 
 #pragma region HrException
 	D3D11Graphics::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoList) noexcept

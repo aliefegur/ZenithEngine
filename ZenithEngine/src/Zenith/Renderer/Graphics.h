@@ -20,6 +20,12 @@ namespace Zenith
 		virtual void DrawIndexed(unsigned int count);
 
 		API GetAPIType() const noexcept;
+		
+	protected:
+		virtual void InitializeImGui();
+		virtual void NewImGuiFrame();
+		virtual void RenderImGui();
+		virtual void ShutdownImGui();
 
 	protected:
 		Window& m_TargetWindow;
