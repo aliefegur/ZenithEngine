@@ -8,15 +8,15 @@
 
 #ifdef _WIN32
 	#define ZENITH_PLATFORM_WINDOWS
-#ifdef ZENITH_SHARED
-	#ifdef ZENITH_BUILD_DLL
-		#define ZENITH_API __declspec(dllexport)
+	#ifdef ZENITH_SHARED
+		#ifdef ZENITH_BUILD_DLL
+			#define ZENITH_API __declspec(dllexport)
+		#else
+			#define ZENITH_API __declspec(dllimport)
+		#endif
 	#else
-		#define ZENITH_API __declspec(dllimport)
+		#define ZENITH_API
 	#endif
-#else
-#define ZENITH_API
-#endif
 #else
 	#error "Zenith Engine currently only supports Windows platform."
 #endif
