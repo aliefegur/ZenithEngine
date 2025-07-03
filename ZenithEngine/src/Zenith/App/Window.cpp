@@ -267,7 +267,6 @@ namespace Zenith
 				m_IsShown = true;
 				LISTENER->OnWindowMaximize(this);
 			}
-			break;
 
 			// Get the window size and notify the listener
 			RECT wndRect;
