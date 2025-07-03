@@ -70,6 +70,8 @@ namespace Zenith
 		std::cout << "OpenGL Version: " << GLVersion.major << "." << GLVersion.minor << std::endl;
 
 		m_CurrentAPI = Graphics::API::OpenGL;
+
+		InitializeImGui();
 	}
 
 	OpenGLGraphics::~OpenGLGraphics()
@@ -81,6 +83,8 @@ namespace Zenith
 
 	void OpenGLGraphics::EndFrame()
 	{
+		Graphics::EndFrame();
+
 		if (SwapBuffers(m_Device) == FALSE)
 		{
 			throw FBSWPERR();
@@ -89,6 +93,8 @@ namespace Zenith
 
 	void OpenGLGraphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept
 	{
+		Graphics::ClearBuffer(red, green, blue, alpha);
+
 		glClearColor(red, green, blue, alpha);
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
@@ -96,6 +102,39 @@ namespace Zenith
 	void OpenGLGraphics::DrawIndexed(unsigned int count)
 	{
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_SHORT, (const void*)0);
+	}
+#pragma endregion
+
+#pragma region ImGui Functions
+	void OpenGLGraphics::InitializeImGui()
+	{
+		Graphics::InitializeImGui();
+
+		ImGui_ImplWin32_InitForOpenGL(m_TargetWindow.GetHWND());
+		ImGui_ImplOpenGL3_Init("#version 450");
+	}
+	
+	void OpenGLGraphics::NewImGuiFrame()
+	{
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplWin32_NewFrame();
+
+		Graphics::NewImGuiFrame();
+	}
+	
+	void OpenGLGraphics::RenderImGui()
+	{
+		Graphics::RenderImGui();
+		
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	}
+	
+	void OpenGLGraphics::ShutdownImGui()
+	{
+		ImGui_ImplOpenGL3_Shutdown();
+		ImGui_ImplWin32_Shutdown();
+		
+		Graphics::ShutdownImGui();
 	}
 #pragma endregion
 

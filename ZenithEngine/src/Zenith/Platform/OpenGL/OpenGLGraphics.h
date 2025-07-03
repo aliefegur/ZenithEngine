@@ -28,6 +28,12 @@ namespace Zenith
 		void ClearBuffer(float red, float green, float blue, float alpha) noexcept override;
 		void DrawIndexed(unsigned int count) override;
 
+	protected:
+		void InitializeImGui() override;
+		void NewImGuiFrame() override;
+		void RenderImGui() override;
+		void ShutdownImGui() override;
+
 	private:
 		HGLRC	m_Context;
 		HDC		m_Device;
