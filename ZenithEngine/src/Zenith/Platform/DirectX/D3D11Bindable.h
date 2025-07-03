@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zenith/API.h"	
 #include "Zenith/Renderer/Bindable.h"
 #include "D3D11Graphics.h"
 
@@ -15,6 +16,8 @@ namespace Zenith
 	protected:
 		static ID3D11DeviceContext* GetContext(D3D11Graphics* gfx) noexcept;
 		static ID3D11Device* GetDevice(D3D11Graphics* gfx) noexcept;
-		static DxgiInfoManager& GetInfoManager(D3D11Graphics* gfx) noexcept (!_DEBUG);
+#if ZENITH_DEBUG
+		static DxgiInfoManager& GetInfoManager(D3D11Graphics* gfx) noexcept;
+#endif
 	};
 }

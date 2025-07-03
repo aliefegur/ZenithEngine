@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zenith/API.h"	
 #include "Zenith/Renderer/Graphics.h"
 #include "Zenith/Utils/ZenithException.h"
 #include "DxgiInfoManager.h"
@@ -65,8 +66,8 @@ namespace Zenith
 		ID3D11DeviceContext*	pContext;
 		ID3D11RenderTargetView* pTarget;
 		ID3D11DepthStencilView* pDSV;
-
-#ifndef NDEBUG
+		
+#if ZENITH_DEBUG
 		DxgiInfoManager infoManager;
 #endif
 	};

@@ -13,8 +13,10 @@ namespace Zenith
 		return gfx->pDevice;
 	}
 
-	DxgiInfoManager& D3D11Renderer::GetInfoManager(D3D11Graphics* gfx) noexcept(!_DEBUG)
+#if ZENITH_DEBUG
+	DxgiInfoManager& D3D11Renderer::GetInfoManager(D3D11Graphics* gfx) noexcept(!ZENITH_DEBUG)
 	{
 		return gfx->infoManager;
 	}
+#endif
 }
