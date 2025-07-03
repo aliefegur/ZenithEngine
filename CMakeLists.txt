@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
+set(ZENITH_SHARED true)
+
 # Just for prevent warning
 project(MyCMakeProject)
 
