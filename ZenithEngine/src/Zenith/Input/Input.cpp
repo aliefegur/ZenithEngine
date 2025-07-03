@@ -44,4 +44,39 @@ namespace Zenith
 	{
 		s_EventWindow = eventWnd;
 	}
+
+	std::pair<int, int> Input::GetMousePosition() noexcept
+	{
+		return s_EventWindow->m_Mouse.GetPos();
+	}
+
+	int Input::GetMousePosX() noexcept
+	{
+		return s_EventWindow->m_Mouse.GetPosX();
+	}
+
+	int Input::GetMousePosY() noexcept
+	{
+		return s_EventWindow->m_Mouse.GetPosY();
+	}
+
+	bool Input::IsMouseInWindow() noexcept
+	{
+		return s_EventWindow->m_Mouse.IsInWindow();
+	}
+
+	bool Input::IsMouseButtonPressed(MouseButton button) noexcept
+	{
+		return s_EventWindow->m_Mouse.IsButtonPressed(button);
+	}
+
+	bool Input::IsMouseButtonJustPressed(MouseButton button) noexcept
+	{
+		return s_EventWindow->m_Mouse.IsButtonJustPressed(button);
+	}
+
+	bool Input::IsMouseButtonJustReleased(MouseButton button) noexcept
+	{
+		return s_EventWindow->m_Mouse.IsButtonJustReleased(button);
+	}
 }

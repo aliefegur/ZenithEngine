@@ -69,7 +69,7 @@ namespace Zenith
 #pragma region Window
 	Window::Window(int width, int height, const std::string& title, bool fullScreen)
 		:
-		m_Width(width), m_Height(height), m_title(title), m_IsFullscreen(fullScreen), m_Graphics(nullptr), m_HasFocus(false), m_IsShown(false), m_EventListener(nullptr)
+		m_Width(width), m_Height(height), m_title(title), m_IsFullscreen(fullScreen), m_Graphics(nullptr), m_HasFocus(false), m_IsShown(false), m_EventListener(nullptr), m_XPos(0), m_YPos(0)
 	{
 		constexpr DWORD windowStyle = WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SIZEBOX | WS_SYSMENU | CS_OWNDC;
 
@@ -232,7 +232,6 @@ namespace Zenith
 			return true;
 		}
 
-		// TODO: Implement Mouse, Scroll, Window Move, Minimize, Maximize, etc. events
 		switch (msg)
 		{
 		case WM_CLOSE:	// Window closed
@@ -345,32 +344,51 @@ namespace Zenith
 			break;
 		}
 
+		// Left button messages
 		case WM_LBUTTONDOWN:
 		{
 			const POINTS pt = MAKEPOINTS(lParam);
-			m_Mouse.OnLeftPressed(pt.x, pt.y);
+			m_Mouse.OnButtonPressed(pt.x, pt.y, static_cast<unsigned char>(MouseButton::Left));
 			LISTENER->OnMouseButtonPress(this, MouseButton::Left, pt.x, pt.y);
 			break;
 		}
 		case WM_LBUTTONUP:
 		{
 			const POINTS pt = MAKEPOINTS(lParam);
-			m_Mouse.OnLeftReleased(pt.x, pt.y);
+			m_Mouse.OnButtonReleased(pt.x, pt.y, static_cast<unsigned char>(MouseButton::Left));
 			LISTENER->OnMouseButtonRelease(this, MouseButton::Left, pt.x, pt.y);
 			break;
 		}
+
+		// Right button messages
 		case WM_RBUTTONDOWN:
 		{
 			const POINTS pt = MAKEPOINTS(lParam);
-			m_Mouse.OnRightPressed(pt.x, pt.y);
+			m_Mouse.OnButtonPressed(pt.x, pt.y, static_cast<unsigned char>(MouseButton::Right));
 			LISTENER->OnMouseButtonPress(this, MouseButton::Right, pt.x, pt.y);
 			break;
 		}
 		case WM_RBUTTONUP:
 		{
 			const POINTS pt = MAKEPOINTS(lParam);
-			m_Mouse.OnRightReleased(pt.x, pt.y);
+			m_Mouse.OnButtonReleased(pt.x, pt.y, static_cast<unsigned char>(MouseButton::Right));
 			LISTENER->OnMouseButtonRelease(this, MouseButton::Right, pt.x, pt.y);
+			break;
+		}
+
+		// Middle button messages
+		case WM_MBUTTONDOWN:
+		{
+			const POINTS pt = MAKEPOINTS(lParam);
+			m_Mouse.OnButtonPressed(pt.x, pt.y, static_cast<unsigned char>(MouseButton::Middle));
+			LISTENER->OnMouseButtonPress(this, MouseButton::Middle, pt.x, pt.y);
+			break;
+		}
+		case WM_MBUTTONUP:
+		{
+			const POINTS pt = MAKEPOINTS(lParam);
+			m_Mouse.OnButtonReleased(pt.x, pt.y, static_cast<unsigned char>(MouseButton::Middle));
+			LISTENER->OnMouseButtonRelease(this, MouseButton::Middle, pt.x, pt.y);
 			break;
 		}
 

@@ -24,14 +24,21 @@ namespace Zenith
 		return m_IsInWindow;
 	}
 
-    bool Mouse::LeftIsPressed() const noexcept
+    bool Mouse::IsButtonPressed(MouseButton button) const noexcept
     {
-        return m_LeftIsPressed;
+        return m_ButtonStates[static_cast<size_t>(button)];
     }
 
-    bool Mouse::RightIsPressed() const noexcept
+    bool Mouse::IsButtonJustPressed(MouseButton button) const noexcept
     {
-        return m_RightIsPressed;
+		size_t btn = static_cast<size_t>(button);
+        return m_ButtonStates[btn] && !m_LastButtonStates[btn];
+    }
+
+    bool Mouse::IsButtonJustReleased(MouseButton button) const noexcept
+    {
+        size_t btn = static_cast<size_t>(button);
+        return !m_ButtonStates[btn] && m_LastButtonStates[btn];
     }
 
     Mouse::Event Mouse::Read() noexcept
@@ -55,6 +62,7 @@ namespace Zenith
 
     void Mouse::Flush() noexcept
     {
+		m_LastButtonStates = m_ButtonStates;
         m_EventBuffer = std::queue<Event>();
     }
 
@@ -63,65 +71,47 @@ namespace Zenith
         this->m_X = x;
         this->m_Y = y;
 
-        m_EventBuffer.push(Event(Event::Type::Move, *this));
+        m_EventBuffer.push(Event(Event::Type::Move, 0, *this));
         TrimBuffer();
     }
 
     void Mouse::OnMouseEnter() noexcept
     {
         m_IsInWindow = true;
-        m_EventBuffer.push(Event(Event::Type::Enter, *this));
+        m_EventBuffer.push(Event(Event::Type::Enter, 0, *this));
         TrimBuffer();
     }
 
     void Mouse::OnMouseLeave() noexcept
     {
         m_IsInWindow = false;
-        m_EventBuffer.push(Event(Event::Type::Leave, *this));
+        m_EventBuffer.push(Event(Event::Type::Leave, 0, *this));
         TrimBuffer();
     }
 
-    void Mouse::OnLeftPressed(int x, int y) noexcept
+    void Mouse::OnButtonPressed(int x, int y, unsigned char code) noexcept
     {
-        m_LeftIsPressed = true;
-
-        m_EventBuffer.push(Event(Event::Type::LPress, *this));
-        TrimBuffer();
+		m_ButtonStates[code] = true;
+        m_EventBuffer.push(Event(Event::Type::Press, code, *this));
+		TrimBuffer();
     }
 
-    void Mouse::OnLeftReleased(int x, int y) noexcept
+    void Mouse::OnButtonReleased(int x, int y, unsigned char code) noexcept
     {
-        m_LeftIsPressed = false;
-
-        m_EventBuffer.push(Event(Event::Type::LRelease, *this));
-        TrimBuffer();
-    }
-
-    void Mouse::OnRightPressed(int x, int y) noexcept
-    {
-        m_RightIsPressed = true;
-
-        m_EventBuffer.push(Event(Event::Type::RPress, *this));
-        TrimBuffer();
-    }
-
-    void Mouse::OnRightReleased(int x, int y) noexcept
-    {
-        m_RightIsPressed = false;
-
-        m_EventBuffer.push(Event(Event::Type::RRelease, *this));
-        TrimBuffer();
+        m_ButtonStates[code] = false;
+		m_EventBuffer.push(Event(Event::Type::Release, code, *this));
+		TrimBuffer();
     }
 
     void Mouse::OnWheelUp(int x, int y) noexcept
     {
-        m_EventBuffer.push(Event(Event::Type::WheelUp, *this));
+        m_EventBuffer.push(Event(Event::Type::WheelUp, NULL, *this));
         TrimBuffer();
     }
 
     void Mouse::OnWheelDown(int x, int y) noexcept
     {
-        m_EventBuffer.push(Event(Event::Type::WheelDown, *this));
+        m_EventBuffer.push(Event(Event::Type::WheelDown, NULL, *this));
         TrimBuffer();
     }
 

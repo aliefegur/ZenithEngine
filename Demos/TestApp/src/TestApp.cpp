@@ -38,6 +38,7 @@ void TestApp::Start()
 	
 	m_Texture = Texture2D::LoadWhiteTexture(m_Window->GetGfx());
 
+	Input::SetupEventWindow(m_Window);
 	m_Window->BindEventListener(this);
 }
 

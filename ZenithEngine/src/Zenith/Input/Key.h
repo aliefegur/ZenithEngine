@@ -98,8 +98,6 @@ namespace Zenith
 	{
 		Left = 0x01,
 		Middle = 0x02,
-		Right = 0x04,
-		X1 = 0x05,
-		X2 = 0x06
+		Right = 0x03,
 	};;
 }
