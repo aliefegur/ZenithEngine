@@ -23,6 +23,34 @@ namespace Zenith
 		}
 	}
 
+	Texture2D* Texture2D::LoadFromFile(Graphics* gfx, const std::string& imageFile, unsigned int pixelPerUnit, bool forceRGBA, Filter filter, Wrap wrap)
+	{
+		switch (gfx->GetAPIType())
+		{
+		case Graphics::API::D3D11:
+			return new D3D11Texture2D(gfx, imageFile, pixelPerUnit, forceRGBA, filter, wrap);
+		case Graphics::API::OpenGL:
+			return new OpenGLTexture2D(gfx, imageFile, pixelPerUnit, forceRGBA, filter, wrap);
+		default:
+			// TODO: Throw an exception for unsupported API
+			break;
+		}
+	}
+
+	Texture2D* Texture2D::LoadFromMemory(Graphics* gfx, unsigned char* pixels, int width, int height, int channelCount, unsigned int pixelPerUnit, Filter filter, Wrap wrap)
+	{
+		switch (gfx->GetAPIType())
+		{
+		case Graphics::API::D3D11:
+			return new D3D11Texture2D(gfx, pixels, width, height, channelCount, pixelPerUnit, filter, wrap);
+		case Graphics::API::OpenGL:
+			return new OpenGLTexture2D(gfx, pixels, width, height, channelCount, pixelPerUnit, filter, wrap);
+		default:
+			// TODO: Throw an exception for unsupported API
+			break;
+		}
+	}
+
 	Texture2D::Texture2D(Graphics* gfx, unsigned char* pixels, int width, int height, int channelCount, unsigned int pixelPerUnit, Filter filter, Wrap wrap)
 		:
 		m_Width(width), m_Height(height), m_ChannelCount(channelCount), m_PixelPerUnit(pixelPerUnit), m_Filter(filter), m_Wrap(wrap), m_Gfx(gfx)

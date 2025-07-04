@@ -1,8 +1,4 @@
 #include "TestApp.h"
-#include <Zenith/Platform/DirectX/D3D11Shader.h>
-#include <Zenith/Platform/DirectX/D3D11BatchRenderer.h>
-#include <Zenith/Platform/OpenGL/OpenGLShader.h>
-#include <Zenith/Platform/OpenGL/OpenGLBatchRenderer.h>
 
 using namespace Zenith;
 
@@ -28,13 +24,14 @@ void TestApp::Start()
 
 	m_Window->Show();
 	
-	m_Window->CreateGraphicsContext(Graphics::API::D3D11);
-	m_Shader = new D3D11Shader(m_Window->GetGfx(), "res/shaders/SpriteVS.cso", "res/shaders/SpritePS.cso");
-	m_BatchRenderer = new D3D11BatchRenderer(m_Window->GetGfx(), m_Shader);
-	
-	/*m_Window->CreateGraphicsContext(Graphics::API::OpenGL);
-	m_Shader = new OpenGLShader(m_Window->GetGfx(), "res/shaders/sprite_vs.glsl", "res/shaders/sprite_fs.glsl");
-	m_BatchRenderer = new OpenGLBatchRenderer(m_Window->GetGfx(), m_Shader);*/
+	constexpr Graphics::API api = Graphics::API::D3D11; // Change to OpenGL if needed
+	m_Window->CreateGraphicsContext(api);
+	m_Shader = Shader::LoadShader(
+		m_Window->GetGfx(), 
+		api == Graphics::API::D3D11 ? "res/shaders/SpriteVS.cso" : "res/shaders/sprite_vs.glsl",
+		api == Graphics::API::D3D11 ? "res/shaders/SpritePS.cso" : "res/shaders/sprite_fs.glsl"
+	);
+	m_BatchRenderer = BatchRenderer::Create(m_Window->GetGfx(), m_Shader);
 	
 	m_Texture = Texture2D::LoadWhiteTexture(m_Window->GetGfx());
 

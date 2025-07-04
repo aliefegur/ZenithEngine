@@ -10,8 +10,11 @@ namespace Zenith
 {
 	class BatchRenderer
 	{
-	public:
+	protected:
 		BatchRenderer(Graphics* gfx, Shader* shader);
+
+	public:
+		static BatchRenderer* Create(Graphics* gfx, Shader* shader);
 		virtual ~BatchRenderer();
 
 		void Begin(const glm::mat4& viewProjection = glm::mat4(1.0f));

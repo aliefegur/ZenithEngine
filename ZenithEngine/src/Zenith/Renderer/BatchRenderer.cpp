@@ -2,6 +2,8 @@
 #include "BatchRenderer.h"
 #include "Stats.h"
 #include "../Platform/OpenGL/OpenGLShader.h"
+#include "../Platform/OpenGL/OpenGLBatchRenderer.h"
+#include "../Platform/DirectX/D3D11BatchRenderer.h"
 
 #define DEFAULT_SCALE glm::vec3 { 1.0f, 1.0f, 0.0f }
 #define DEFAULT_ROTATION 0.0f
@@ -9,6 +11,20 @@
 
 namespace Zenith
 {
+	BatchRenderer* BatchRenderer::Create(Graphics* gfx, Shader* shader)
+	{
+		switch (gfx->GetAPIType())
+		{
+		case Graphics::API::OpenGL:
+			return new OpenGLBatchRenderer(gfx, shader);
+		case Graphics::API::D3D11:
+			return new D3D11BatchRenderer(gfx, shader);
+		default:
+			// TODO: Throw an exception for unsupported API
+			break;
+		}
+	}
+
 	BatchRenderer::BatchRenderer(Graphics* gfx, Shader* shader) 
 		: 
 		m_Gfx(gfx)
