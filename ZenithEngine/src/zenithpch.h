@@ -10,6 +10,7 @@
 #include <regex>
 #include <map>
 #include <memory>
+#include <random>
 
 #include <Windows.h>
 #include <wrl.h>
