@@ -8,7 +8,9 @@
 #include <iostream>
 #include <fstream>
 #include <regex>
+#include <vector>
 #include <map>
+#include <unordered_map>
 #include <memory>
 #include <random>
 
