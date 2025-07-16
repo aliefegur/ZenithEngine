@@ -4,17 +4,15 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/ZenithEngine/src",
-				"${workspaceFolder}/ZenithEngine/vendor/freetype/include",
 				"${workspaceFolder}/ZenithEngine/vendor/glad/include",
 				"${workspaceFolder}/ZenithEngine/vendor/glm",
 				"${workspaceFolder}/ZenithEngine/vendor/imgui",
-				"${workspaceFolder}/ZenithEngine/vendor/openal/include",
-				"${workspaceFolder}/ZenithEngine/vendor/sndfile/include",
 				"${workspaceFolder}/ZenithEngine/vendor/stb/include"
             ],
             "defines": [
 				"ZENITH_PLATFORM_WINDOWS=false",
-				"ZENITH_PLATFORM_LINUX=true"
+				"ZENITH_PLATFORM_LINUX=true",
+				"FT_FREETYPE_H=<freetype2/freetype/freetype.h>"
 			],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c17",

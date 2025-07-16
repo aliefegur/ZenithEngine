@@ -15,6 +15,9 @@ add_subdirectory(vendor/stb)
 add_subdirectory(vendor/imgui)
 if(UNIX)
 	find_package(glfw3 3.4 REQUIRED)
+	find_package(OpenAL REQUIRED)
+	find_package(Freetype REQUIRED)
+	pkg_check_modules(SNDFILE REQUIRED sndfile)
 endif()
 
 if (WIN32)
@@ -22,9 +25,18 @@ if (WIN32)
 								dxguid 
 								${PROJECT_SOURCE_DIR}/vendor/freetype/lib/freetype.lib
 								${PROJECT_SOURCE_DIR}/vendor/openal/lib/OpenAL32.lib
-								${PROJECT_SOURCE_DIR}/vendor/sndfile/lib/sndfile.lib)
+								${PROJECT_SOURCE_DIR}/vendor/sndfile/lib/sndfile.lib
+								)
+	set(PLATFORM_INCLUDES	vendor/openal/include
+							vendor/sndfile/include
+							vendor/freetype/include
+							)
 elseif(UNIX)
-	set(PLATFORM_DEPENDENCIES	glfw)
+	set(PLATFORM_DEPENDENCIES	glfw
+								OpenAL::OpenAL
+								Freetype::Freetype
+								${SNDFILE_LIBRARIES})
+	set(PLATFORM_INCLUDES	${SNDFILE_INCLUDE_DIRS})
 endif()
 
 # Source files
@@ -59,17 +71,17 @@ add_library(${PROJECT_NAME} ${ENGINE_PROJECT_SOURCES} ${PLATFORM_SOURCES})
 target_include_directories(${PROJECT_NAME} PRIVATE	vendor/glad/include
 													vendor/stb/include
 													vendor/glm
-													vendor/freetype/include
 													vendor/imgui
-													vendor/openal/include
-													vendor/sndfile/include
 													src/
+													${PLATFORM_INCLUDES}
 													)
 
+if (WIN32)
 target_link_directories(${PROJECT_NAME} PRIVATE	vendor/freetype/lib
 												vendor/openal/lib
 												vendor/sndfile/lib
 												)
+endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE	glad 
 												stb

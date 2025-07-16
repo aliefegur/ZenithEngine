@@ -1,3 +1,4 @@
+// Standard libs
 #include <cstdlib>
 #include <cstdint>
 #include <chrono>
@@ -9,6 +10,7 @@
 #include <map>
 #include <memory>
 
+// Windows
 #if ZENITH_PLATFORM_WINDOWS
 #include <Windows.h>
 #include <wrl.h>
@@ -16,16 +18,18 @@
 #include <d3dcompiler.h>
 #endif
 
+// GLAD
 #include <glad/glad.h>
-
 #if ZENITH_PLATFORM_WINDOWS
 #include <glad/glad_wgl.h>
 #endif
 
+// GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+// ImGui
 #include <imgui.h>
 #include <imgui_impl_opengl3.h>
 #if ZENITH_PLATFORM_WINDOWS
@@ -37,5 +41,11 @@
 
 #include <stb/stb_image.h>
 
+// Freetype
+#if ZENITH_PLATFORM_WINDOWS
 #include <ft2build.h>
 #include FT_FREETYPE_H
+#else
+#include <freetype2/ft2build.h>
+#include FT_FREETYPE_H
+#endif

@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 
-set(ZENITH_SHARED true)
+set(ZENITH_SHARED false)
+
+# En üste ekle:
+include(FindPkgConfig)
 
 # Just for prevent warning
 project(MyCMakeProject)
