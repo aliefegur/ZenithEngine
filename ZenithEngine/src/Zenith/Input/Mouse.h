@@ -10,6 +10,7 @@ namespace Zenith
 	class Mouse
 	{
 		friend class Window;
+		friend class Win32Window;
 	public:
 		class Event
 		{

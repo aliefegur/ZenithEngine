@@ -47,6 +47,8 @@ file (GLOB ENGINE_PROJECT_SOURCES	src/**.h
 if(WIN32)
 	file (GLOB PLATFORM_SOURCES	src/Zenith/Platform/DirectX/**.h
 								src/Zenith/Platform/DirectX/**.cpp
+								src/Zenith/Platform/Windows/**.h
+								src/Zenith/Platform/Windows/**.cpp
 								)
 elseif(UNIX)
 
@@ -61,17 +63,20 @@ target_include_directories(${PROJECT_NAME} PRIVATE	vendor/glad/include
 													vendor/imgui
 													vendor/openal/include
 													vendor/sndfile/include
-													src/)
+													src/
+													)
 
 target_link_directories(${PROJECT_NAME} PRIVATE	vendor/freetype/lib
 												vendor/openal/lib
-												vendor/sndfile/lib)
+												vendor/sndfile/lib
+												)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE	glad 
 												stb
 												opengl32
 												imgui												
-												${PLATFORM_DEPENDENCIES})
+												${PLATFORM_DEPENDENCIES}
+												)
 												
 target_precompile_headers(${PROJECT_NAME} PRIVATE src/zenithpch.h)
 
@@ -121,3 +126,12 @@ if (WIN32)
 	add_custom_target(ZenithShaders ALL DEPENDS ${COMPILED_SHADERS})
 	add_dependencies(${PROJECT_NAME} ZenithShaders)
 endif()
+
+# Preprocessor definitions
+if (WIN32)
+	target_compile_definitions(${PROJECT_NAME} PRIVATE	"ZENITH_PLATFORM_WINDOWS=true"
+														"ZENITH_PLATFORM_LINUX=false")
+elseif (UNIX)
+	target_compile_definitions(${PROJECT_NAME} PRIVATE	"ZENITH_PLATFORM_WINDOWS=false"
+														"ZENITH_PLATFORM_LINUX=true")
+endif ()

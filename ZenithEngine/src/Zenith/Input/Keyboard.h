@@ -8,6 +8,7 @@ namespace Zenith
 	class Keyboard
 	{
 		friend class Window;
+		friend class Win32Window;
 	public:
 		class Event
 		{

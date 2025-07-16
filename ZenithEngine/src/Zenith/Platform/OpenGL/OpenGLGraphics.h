@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Zenith/API.h"
 #include "Zenith/Renderer/Graphics.h"
 #include "Zenith/Utils/ZenithException.h"
 

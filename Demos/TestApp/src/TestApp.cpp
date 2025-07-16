@@ -6,7 +6,11 @@ TestApp::TestApp()
 	:
 	m_Shader(nullptr), m_BatchRenderer(nullptr), m_Texture(nullptr)
 {
-	m_Window = new Window(1280, 720, "Zenith Test App", false);
+#if ZENITH_PLATFORM_WINDOWS
+	m_Window = new Win32Window(1280, 720, "Zenith Test App", false);
+#else
+	// TODO: Implement Linux functionality
+#endif
 	m_Viewport = new Viewport(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
 	m_Camera = new Camera(m_Viewport);
 	m_Camera->zNear = 0.0f;

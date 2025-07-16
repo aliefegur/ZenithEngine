@@ -1,6 +1,7 @@
 #include "zenithpch.h"
 #include "OpenGLGraphics.h"
 #include "Zenith/App/Window.h"
+#include "Zenith/Platform/Windows/Win32Window.h"
 
 #define INIT_ERROR(_desc_) InitializationError(__LINE__, __FILE__, _desc_)
 #define FBSWPERR() FramebufferSwapError(__LINE__, __FILE__)
@@ -15,6 +16,7 @@ namespace Zenith
 		:
 		Graphics(targetWindow)
 	{
+#ifdef ZENITH_PLATFORM_WINDOWS
 		PIXELFORMATDESCRIPTOR pfd = {
 			sizeof(PIXELFORMATDESCRIPTOR),
 			1,
@@ -34,7 +36,7 @@ namespace Zenith
 			0, 0, 0
 		};
 
-		m_Device = GetDC(targetWindow.GetHWND());
+		m_Device = GetDC(reinterpret_cast<Win32Window*>(&targetWindow)->GetHWND());
 
 		int letWindowChoosePixelFormat = ChoosePixelFormat(m_Device, &pfd);
 		SetPixelFormat(m_Device, letWindowChoosePixelFormat, &pfd);
@@ -54,11 +56,14 @@ namespace Zenith
 			throw INIT_ERROR("Failed to load WGL extensions!");
 		}
 
-		// Initial viewport
-		glViewport(0, 0, targetWindow.GetWidth(), targetWindow.GetHeight());
-
 		// Enable V-Sync
 		wglSwapIntervalEXT(1);
+#else
+		// TODO: Implement Linux functionality
+#endif
+
+		// Initial viewport
+		glViewport(0, 0, targetWindow.GetWidth(), targetWindow.GetHeight());
 
 		// Enable alpha blending
 		glEnable(GL_BLEND);
@@ -76,19 +81,27 @@ namespace Zenith
 
 	OpenGLGraphics::~OpenGLGraphics()
 	{
+#ifdef ZENITH_PLATFORM_WINDOWS
 		wglMakeCurrent(nullptr, nullptr);
 		wglDeleteContext(m_Context);
-		ReleaseDC(m_TargetWindow.GetHWND(), m_Device);
+		ReleaseDC(reinterpret_cast<Win32Window*>(&m_TargetWindow)->GetHWND(), m_Device);
+#else
+		// TODO: Implement Linux functionality
+#endif
 	}
 
 	void OpenGLGraphics::EndFrame()
 	{
 		Graphics::EndFrame();
 
+#ifdef ZENITH_PLATFORM_WINDOWS
 		if (SwapBuffers(m_Device) == FALSE)
 		{
 			throw FBSWPERR();
 		}
+#else
+		// TODO: Implement Linux functionality
+#endif
 	}
 
 	void OpenGLGraphics::ClearBuffer(float red, float green, float blue, float alpha) noexcept
@@ -110,14 +123,22 @@ namespace Zenith
 	{
 		Graphics::InitializeImGui();
 
-		ImGui_ImplWin32_InitForOpenGL(m_TargetWindow.GetHWND());
+#ifdef ZENITH_PLATFORM_WINDOWS
+		ImGui_ImplWin32_InitForOpenGL(reinterpret_cast<Win32Window*>(&m_TargetWindow)->GetHWND());
+#else
+		// TODO: Implement Linux functionalities
+#endif
 		ImGui_ImplOpenGL3_Init("#version 450");
 	}
 	
 	void OpenGLGraphics::NewImGuiFrame()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
+#ifdef ZENITH_PLATFORM_WINDOWS
 		ImGui_ImplWin32_NewFrame();
+#else
+		// TODO: Implement Linux functionality
+#endif
 
 		Graphics::NewImGuiFrame();
 	}
@@ -132,7 +153,11 @@ namespace Zenith
 	void OpenGLGraphics::ShutdownImGui()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
+#ifdef ZENITH_PLATFORM_WINDOWS
 		ImGui_ImplWin32_Shutdown();
+#else
+		// TODO: Implement Linux functionality
+#endif
 		
 		Graphics::ShutdownImGui();
 	}

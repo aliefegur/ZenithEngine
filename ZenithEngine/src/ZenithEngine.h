@@ -1,5 +1,10 @@
+#include "Zenith/API.h"
+
 #include "Zenith/App/AppManager.h"
 #include "Zenith/App/Window.h"
+#if ZENITH_PLATFORM_WINDOWS
+#include "Zenith/Platform/Windows/Win32Window.h"
+#endif
 
 #include "Zenith/Audio/AudioClip.h"
 #include "Zenith/Audio/AudioDevice.h"

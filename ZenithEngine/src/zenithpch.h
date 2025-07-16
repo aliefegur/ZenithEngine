@@ -1,5 +1,3 @@
-#include "Zenith/API.h"
-
 #include <cstdlib>
 #include <cstdint>
 #include <chrono>
@@ -11,7 +9,7 @@
 #include <map>
 #include <memory>
 
-#ifdef _WIN32
+#ifdef ZENITH_PLATFORM_WINDOWS
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d11.h>
@@ -20,7 +18,7 @@
 
 #include <glad/glad.h>
 
-#ifdef _WIN32
+#ifdef ZENITH_PLATFORM_WINDOWS
 #include <glad/glad_wgl.h>
 #endif
 

@@ -1,6 +1,7 @@
 #include "zenithpch.h"
 #include "D3D11Graphics.h"
 #include "Zenith/App/Window.h"
+#include "Zenith/Platform/Windows/Win32Window.h"
 #include <wrl.h>
 
 namespace wrl = Microsoft::WRL;
@@ -21,7 +22,7 @@ namespace Zenith
 		sd.SampleDesc.Quality = 0;
 		sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		sd.BufferCount = 2;
-		sd.OutputWindow = targetWindow.GetHWND();
+		sd.OutputWindow = reinterpret_cast<Win32Window*>(&targetWindow)->GetHWND();
 		sd.Windowed = TRUE;
 		sd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
 		sd.Flags = NULL;
@@ -203,7 +204,7 @@ namespace Zenith
 	{
 		Graphics::InitializeImGui();
 
-		ImGui_ImplWin32_Init(m_TargetWindow.GetHWND());
+		ImGui_ImplWin32_Init(reinterpret_cast<Win32Window*>(&m_TargetWindow)->GetHWND());
 		ImGui_ImplDX11_Init(pDevice, pContext);
 	}
 

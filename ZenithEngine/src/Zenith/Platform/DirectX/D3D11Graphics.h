@@ -1,3 +1,5 @@
+#ifdef ZENITH_PLATFORM_WINDOWS
+
 #pragma once
 
 #include "Zenith/API.h"	
@@ -97,4 +99,6 @@ namespace Zenith
 #define INFO_MANAGER(gfx) HRESULT hr
 #else
 #define INFO_MANAGER(gfx) HRESULT hr; DxgiInfoManager& infoManager = GetInfoManager((gfx))
+#endif
+
 #endif
