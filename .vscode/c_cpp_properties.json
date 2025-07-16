@@ -1,0 +1,23 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/ZenithEngine/src",
+				"${workspaceFolder}/ZenithEngine/vendor/freetype/include",
+				"${workspaceFolder}/ZenithEngine/vendor/glad/include",
+				"${workspaceFolder}/ZenithEngine/vendor/glm",
+				"${workspaceFolder}/ZenithEngine/vendor/imgui",
+				"${workspaceFolder}/ZenithEngine/vendor/openal/include",
+				"${workspaceFolder}/ZenithEngine/vendor/sndfile/include",
+				"${workspaceFolder}/ZenithEngine/vendor/stb/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}

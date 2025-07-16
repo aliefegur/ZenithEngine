@@ -5,7 +5,6 @@
 #include "Zenith/Input/Keyboard.h"
 #include "Zenith/Input/Mouse.h"
 #include "Zenith/Input/EventListener.h"
-#include <Windows.h>
 
 namespace Zenith
 {

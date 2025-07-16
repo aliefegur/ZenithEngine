@@ -11,13 +11,18 @@
 #include <map>
 #include <memory>
 
+#ifdef _WIN32
 #include <Windows.h>
 #include <wrl.h>
 #include <d3d11.h>
 #include <d3dcompiler.h>
+#endif
 
 #include <glad/glad.h>
+
+#ifdef _WIN32
 #include <glad/glad_wgl.h>
+#endif
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
