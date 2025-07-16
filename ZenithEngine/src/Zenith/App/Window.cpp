@@ -3,7 +3,9 @@
 #include "Window.h"
 #include "Zenith/Renderer/Graphics.h"
 #include "Zenith/Platform/OpenGL/OpenGLGraphics.h"
+#if ZENITH_PLATFORM_WINDOWS
 #include "Zenith/Platform/DirectX/D3D11Graphics.h"
+#endif
 
 #include <imgui.h>
 
@@ -77,7 +79,12 @@ namespace Zenith
 		switch (targetApi)
 		{
 		case Zenith::Graphics::API::D3D11: 
+#if ZENITH_PLATFORM_WINDOWS
 			m_Graphics = new D3D11Graphics(*this);
+#else
+			// TODO: Throw error
+			m_Graphics = nullptr;
+#endif
 			break;
 		case Zenith::Graphics::API::OpenGL:
 			m_Graphics = new OpenGLGraphics(*this);

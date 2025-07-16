@@ -12,7 +12,10 @@
 				"${workspaceFolder}/ZenithEngine/vendor/sndfile/include",
 				"${workspaceFolder}/ZenithEngine/vendor/stb/include"
             ],
-            "defines": [],
+            "defines": [
+				"ZENITH_PLATFORM_WINDOWS=false",
+				"ZENITH_PLATFORM_LINUX=true"
+			],
             "compilerPath": "/usr/bin/gcc",
             "cStandard": "c17",
             "cppStandard": "gnu++17",
