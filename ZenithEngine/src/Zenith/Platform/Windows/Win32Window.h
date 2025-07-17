@@ -1,3 +1,5 @@
+#if ZENITH_PLATFORM_WINDOWS
+
 #pragma once
 
 #include "Zenith/App/Window.h"
@@ -52,3 +54,5 @@ namespace Zenith
 		LRESULT CALLBACK HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 	};
 }
+
+#endif

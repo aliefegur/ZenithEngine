@@ -9,8 +9,10 @@ namespace Zenith
 	{
 		switch (gfx->GetAPIType())
 		{
+#if ZENITH_PLATFORM_WINDOWS
 		case Graphics::API::D3D11:
 			return new D3D11Shader(gfx, vsFile, psFile);
+#endif
 		case Graphics::API::OpenGL:
 			return new OpenGLShader(gfx, vsFile, psFile);
 		default:

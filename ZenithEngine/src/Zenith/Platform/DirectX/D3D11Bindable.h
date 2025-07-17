@@ -1,3 +1,5 @@
+#if ZENITH_PLATFORM_WINDOWS
+
 #pragma once
 
 #include "Zenith/API.h"	
@@ -21,3 +23,5 @@ namespace Zenith
 #endif
 	};
 }
+
+#endif // ZENITH_PLATFORM_WINDOWS

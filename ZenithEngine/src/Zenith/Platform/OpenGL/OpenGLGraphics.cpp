@@ -1,7 +1,11 @@
 #include "zenithpch.h"
 #include "OpenGLGraphics.h"
-#include "Zenith/App/Window.h"
+
+#if ZENITH_PLATFORM_WINDOWS
 #include "Zenith/Platform/Windows/Win32Window.h"
+#elif ZENITH_PLATFORM_LINUX
+#include "Zenith/Platform/Linux/LinuxWindow.h"
+#endif
 
 #define INIT_ERROR(_desc_) InitializationError(__LINE__, __FILE__, _desc_)
 #define FBSWPERR() FramebufferSwapError(__LINE__, __FILE__)
@@ -69,6 +73,9 @@ namespace Zenith
 		{
 			throw INIT_ERROR("Failed to load OpenGL functions!");
 		}
+
+		// Enable V-Sync
+		glfwSwapInterval(1);
 #endif
 
 		// Initial viewport

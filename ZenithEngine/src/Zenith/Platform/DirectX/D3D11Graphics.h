@@ -1,4 +1,4 @@
-#ifdef ZENITH_PLATFORM_WINDOWS
+#if ZENITH_PLATFORM_WINDOWS
 
 #pragma once
 
@@ -101,4 +101,4 @@ namespace Zenith
 #define INFO_MANAGER(gfx) HRESULT hr; DxgiInfoManager& infoManager = GetInfoManager((gfx))
 #endif
 
-#endif
+#endif // ZENITH_PLATFORM_WINDOWS

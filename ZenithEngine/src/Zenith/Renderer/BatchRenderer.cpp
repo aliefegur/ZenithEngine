@@ -17,8 +17,10 @@ namespace Zenith
 		{
 		case Graphics::API::OpenGL:
 			return new OpenGLBatchRenderer(gfx, shader);
+#if ZENITH_PLATFORM_WINDOWS
 		case Graphics::API::D3D11:
 			return new D3D11BatchRenderer(gfx, shader);
+#endif
 		default:
 			// TODO: Throw an exception for unsupported API
 			break;

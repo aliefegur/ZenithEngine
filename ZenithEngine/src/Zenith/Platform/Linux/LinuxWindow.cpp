@@ -4,7 +4,6 @@
 namespace Zenith
 {
 	bool LinuxWindow::glfwInitialized = false;
-	bool LinuxWindow::gladInitialized = false;
 
 	LinuxWindow::LinuxWindow(int width, int height, const std::string &title, bool fullScreen)
 		:
@@ -28,14 +27,6 @@ namespace Zenith
 			// TODO: Throw an error
 			throw "Failed to create GLFW window!";
 		}
-
-		// Create rendering context
-		glfwMakeContextCurrent(m_Window);
-
-		InitGLAD();
-
-		// Enable V-Sync
-		glfwSwapInterval(1);
 	}
 	
 	LinuxWindow::~LinuxWindow()

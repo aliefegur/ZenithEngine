@@ -23,9 +23,11 @@ namespace Zenith
 		case Graphics::API::OpenGL:
 			glViewport(m_X, m_Y, m_W, m_H);
 			break;
+#if ZENITH_PLATFORM_WINDOWS
 		case Graphics::API::D3D11:
 			reinterpret_cast<D3D11Graphics*>(gfx)->ApplyViewport(*this);
 			break;
+#endif
 		default:
 			// TODO: Throw an exception
 			break;

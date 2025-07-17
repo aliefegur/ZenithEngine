@@ -1,3 +1,5 @@
+#if ZENITH_PLATFORM_WINDOWS
+
 #pragma once
 
 #include "D3D11Renderer.h"
@@ -24,3 +26,5 @@ namespace Zenith
 		D3D11Texture2D		*pTextureSlots[MAX_TEXTURES];
 	};
 }
+
+#endif // ZENITH_PLATFORM_WINDOWS

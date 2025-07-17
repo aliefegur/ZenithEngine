@@ -14,7 +14,7 @@
 	#endif
 #endif
 
-#ifdef ZENITH_PLATFORM_WINDOWS
+#if ZENITH_PLATFORM_WINDOWS
 	#ifdef ZENITH_SHARED
 		#ifdef ZENITH_BUILD_DLL
 			#define ZENITH_API __declspec(dllexport)

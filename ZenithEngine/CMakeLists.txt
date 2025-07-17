@@ -143,9 +143,9 @@ endif()
 
 # Preprocessor definitions
 if (WIN32)
-	target_compile_definitions(${PROJECT_NAME} PRIVATE	"ZENITH_PLATFORM_WINDOWS=true"
+	target_compile_definitions(${PROJECT_NAME} PUBLIC	"ZENITH_PLATFORM_WINDOWS=true"
 														"ZENITH_PLATFORM_LINUX=false")
 elseif (UNIX)
-	target_compile_definitions(${PROJECT_NAME} PRIVATE	"ZENITH_PLATFORM_WINDOWS=false"
+	target_compile_definitions(${PROJECT_NAME} PUBLIC	"ZENITH_PLATFORM_WINDOWS=false"
 														"ZENITH_PLATFORM_LINUX=true")
 endif ()

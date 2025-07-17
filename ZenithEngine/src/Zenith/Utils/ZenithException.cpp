@@ -42,6 +42,7 @@ namespace Zenith
 #pragma endregion
 
 #pragma region ZenithWException
+#if ZENITH_PLATFORM_WINDOWS
 
 	ZenithWException::ZenithWException(int line, const wchar_t* file) noexcept
 		:
@@ -84,6 +85,7 @@ namespace Zenith
 		return wos.str();
 	}
 
+#endif // ZENITH_PLATFORM_WINDOWS
 #pragma endregion
 
 #pragma region ResourceNotFoundException

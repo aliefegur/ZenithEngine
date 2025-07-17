@@ -1,3 +1,5 @@
+#if ZENITH_PLATFORM_LINUX
+
 #pragma once
 
 #include "Zenith/App/Window.h"
@@ -32,3 +34,5 @@ namespace Zenith
         static bool glfwInitialized;
 	};
 }
+
+#endif // ZENITH_PLATFORM_LINUX

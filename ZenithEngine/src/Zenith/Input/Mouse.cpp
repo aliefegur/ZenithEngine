@@ -1,6 +1,6 @@
 #include "zenithpch.h"
 #include "Mouse.h"
-#include <Windows.h>
+#define WHEEL_DELTA 120
 
 namespace Zenith
 {
@@ -105,13 +105,13 @@ namespace Zenith
 
     void Mouse::OnWheelUp(int x, int y) noexcept
     {
-        m_EventBuffer.push(Event(Event::Type::WheelUp, NULL, *this));
+        m_EventBuffer.push(Event(Event::Type::WheelUp, 0, *this));
         TrimBuffer();
     }
 
     void Mouse::OnWheelDown(int x, int y) noexcept
     {
-        m_EventBuffer.push(Event(Event::Type::WheelDown, NULL, *this));
+        m_EventBuffer.push(Event(Event::Type::WheelDown, 0, *this));
         TrimBuffer();
     }
 

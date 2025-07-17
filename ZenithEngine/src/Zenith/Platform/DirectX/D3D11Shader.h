@@ -1,3 +1,5 @@
+#if ZENITH_PLATFORM_WINDOWS
+
 #pragma once
 
 #include "Zenith/Renderer/Shader.h"
@@ -22,3 +24,5 @@ namespace Zenith
 		ID3DBlob *pVsbc, *pPsbc;
 	};
 }
+
+#endif // ZENITH_PLATFORM_WINDOWS
