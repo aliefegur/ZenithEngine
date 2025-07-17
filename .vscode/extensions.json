@@ -1,0 +1,9 @@
+{
+	"recommendations": [
+		"ms-vscode.cpptools-extension-pack",
+		"ms-vscode.cmake-tools",
+		"timgjones.hlsltools",
+		"gruntfuggly.todo-tree",
+		"geforcelegend.vscode-glsl"
+	]
+}

@@ -63,7 +63,9 @@ if(WIN32)
 								src/Zenith/Platform/Windows/**.cpp
 								)
 elseif(UNIX)
-
+	file (GLOB PLATFORM_SOURCES	src/Zenith/Platform/Linux/**.h
+								src/Zenith/Platform/Linux/**.cpp
+								)
 endif()
 
 add_library(${PROJECT_NAME} ${ENGINE_PROJECT_SOURCES} ${PLATFORM_SOURCES})

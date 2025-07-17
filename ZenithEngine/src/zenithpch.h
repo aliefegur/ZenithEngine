@@ -24,6 +24,11 @@
 #include <glad/glad_wgl.h>
 #endif
 
+// GLFW
+#if ZENITH_PLATFORM_LINUX
+#include <GLFW/glfw3.h>
+#endif
+
 // GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>

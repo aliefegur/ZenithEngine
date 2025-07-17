@@ -16,7 +16,7 @@ namespace Zenith
 		:
 		Graphics(targetWindow)
 	{
-#ifdef ZENITH_PLATFORM_WINDOWS
+#if ZENITH_PLATFORM_WINDOWS
 		PIXELFORMATDESCRIPTOR pfd = {
 			sizeof(PIXELFORMATDESCRIPTOR),
 			1,
@@ -59,7 +59,16 @@ namespace Zenith
 		// Enable V-Sync
 		wglSwapIntervalEXT(1);
 #else
-		// TODO: Implement Linux functionality
+		GLFWwindow* windowHandle = reinterpret_cast<LinuxWindow*>(&targetWindow)->GetWindowHandle();
+
+		// Set context
+		glfwMakeContextCurrent(windowHandle);
+
+		// Load OpenGL
+		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+		{
+			throw INIT_ERROR("Failed to load OpenGL functions!");
+		}
 #endif
 
 		// Initial viewport
@@ -81,12 +90,10 @@ namespace Zenith
 
 	OpenGLGraphics::~OpenGLGraphics()
 	{
-#ifdef ZENITH_PLATFORM_WINDOWS
+#if ZENITH_PLATFORM_WINDOWS
 		wglMakeCurrent(nullptr, nullptr);
 		wglDeleteContext(m_Context);
 		ReleaseDC(reinterpret_cast<Win32Window*>(&m_TargetWindow)->GetHWND(), m_Device);
-#else
-		// TODO: Implement Linux functionality
 #endif
 	}
 
@@ -94,13 +101,19 @@ namespace Zenith
 	{
 		Graphics::EndFrame();
 
-#ifdef ZENITH_PLATFORM_WINDOWS
+#if ZENITH_PLATFORM_WINDOWS
 		if (SwapBuffers(m_Device) == FALSE)
 		{
 			throw FBSWPERR();
 		}
 #else
-		// TODO: Implement Linux functionality
+		glfwSwapBuffers(reinterpret_cast<LinuxWindow*>(&m_TargetWindow)->GetWindowHandle());
+
+		// TODO: Think about this error handling
+		if (glGetError() != GL_NO_ERROR)
+		{
+			throw FBSWPERR();
+		}
 #endif
 	}
 
@@ -123,10 +136,10 @@ namespace Zenith
 	{
 		Graphics::InitializeImGui();
 
-#ifdef ZENITH_PLATFORM_WINDOWS
+#if ZENITH_PLATFORM_WINDOWS
 		ImGui_ImplWin32_InitForOpenGL(reinterpret_cast<Win32Window*>(&m_TargetWindow)->GetHWND());
 #else
-		// TODO: Implement Linux functionalities
+		ImGui_ImplGlfw_InitForOpenGL(reinterpret_cast<LinuxWindow*>(&m_TargetWindow)->GetWindowHandle(), true);
 #endif
 		ImGui_ImplOpenGL3_Init("#version 450");
 	}
@@ -134,10 +147,10 @@ namespace Zenith
 	void OpenGLGraphics::NewImGuiFrame()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
-#ifdef ZENITH_PLATFORM_WINDOWS
+#if ZENITH_PLATFORM_WINDOWS
 		ImGui_ImplWin32_NewFrame();
 #else
-		// TODO: Implement Linux functionality
+		ImGui_ImplGlfw_NewFrame();
 #endif
 
 		Graphics::NewImGuiFrame();
@@ -153,10 +166,10 @@ namespace Zenith
 	void OpenGLGraphics::ShutdownImGui()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
-#ifdef ZENITH_PLATFORM_WINDOWS
+#if ZENITH_PLATFORM_WINDOWS
 		ImGui_ImplWin32_Shutdown();
 #else
-		// TODO: Implement Linux functionality
+		ImGui_ImplGlfw_Shutdown();
 #endif
 		
 		Graphics::ShutdownImGui();

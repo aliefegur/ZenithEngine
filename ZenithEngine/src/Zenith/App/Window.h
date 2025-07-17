@@ -8,8 +8,6 @@
 
 namespace Zenith
 {
-	class Graphics;
-
 	class Window
 	{		
 		friend class Input;

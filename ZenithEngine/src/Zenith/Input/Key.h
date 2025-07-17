@@ -99,5 +99,5 @@ namespace Zenith
 		Left = 0x01,
 		Middle = 0x02,
 		Right = 0x03,
-	};;
+	};
 }
