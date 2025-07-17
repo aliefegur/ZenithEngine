@@ -21,7 +21,8 @@ if(UNIX)
 endif()
 
 if (WIN32)
-	set(PLATFORM_DEPENDENCIES	d3d11 
+	set(PLATFORM_DEPENDENCIES	opengl32
+								d3d11 
 								dxguid 
 								${PROJECT_SOURCE_DIR}/vendor/freetype/lib/freetype.lib
 								${PROJECT_SOURCE_DIR}/vendor/openal/lib/OpenAL32.lib
@@ -87,7 +88,6 @@ endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE	glad 
 												stb
-												opengl32
 												imgui												
 												${PLATFORM_DEPENDENCIES}
 												)
