@@ -33,9 +33,13 @@ add_custom_command(	TARGET ${PROJECT_NAME} POST_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
 					${ZENITH_DIR}/res/
 					${TEST_APP_BIN_DIR}/res/
-
-					TARGET ${PROJECT_NAME} POST_BUILD
-					COMMAND ${CMAKE_COMMAND} -E copy_directory
-					${ZENITH_DIR}/dll/
-					${TEST_APP_BIN_DIR}/
 					)
+
+if (WIN32)
+	# Copy DLLs only on Windows
+	add_custom_command(	TARGET ${PROJECT_NAME} POST_BUILD
+						COMMAND ${CMAKE_COMMAND} -E copy_directory
+						${ZENITH_DIR}/dll/
+						${TEST_APP_BIN_DIR}/
+						)
+endif()
