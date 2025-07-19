@@ -3,7 +3,9 @@
 #include "Zenith/App/AppManager.h"
 #include "Zenith/App/Window.h"
 #if ZENITH_PLATFORM_WINDOWS
-#include "Zenith/Platform/Windows/Win32Window.h"
+#include "Zenith/Platform/Windows/Win32Window.h
+#elif ZENITH_PLATFORM_LINUX
+#include "Zenith/Platform/Linux/LinuxWindow.h"
 #endif
 
 #include "Zenith/Audio/AudioClip.h"
