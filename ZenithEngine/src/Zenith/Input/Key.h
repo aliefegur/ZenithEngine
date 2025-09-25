@@ -106,11 +106,11 @@ namespace Zenith
 	
 	enum class MouseButton
 	{
-#if GLFW_PLATFORM_WINDOWS
+#if ZENITH_PLATFORM_WINDOWS
 		Left = 0x01,
 		Middle = 0x02,
 		Right = 0x03,
-#elif GLFW_PLATFORM_LINUX
+#elif ZENITH_PLATFORM_LINUX
 		Left = 0,
 		Right = 1,
 		Middle = 2

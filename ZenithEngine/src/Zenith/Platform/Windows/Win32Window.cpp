@@ -252,14 +252,14 @@ namespace Zenith
 		case WM_SYSKEYDOWN:
 			if (!(lParam & 0x40000000) || m_Keyboard.IsAutorepeatEnabled())
 			{
-				m_Keyboard.OnKeyPress(static_cast<unsigned char>(wParam));
+				m_Keyboard.OnKeyPress(static_cast<Key>(wParam));
 				LISTENER->OnKeyPress(this, static_cast<Key>(wParam));
 			}
 			break;
 
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
-			m_Keyboard.OnKeyRelease(static_cast<unsigned char>(wParam));
+			m_Keyboard.OnKeyRelease(static_cast<Key>(wParam));
 			LISTENER->OnKeyRelease(this, static_cast<Key>(wParam));
 			break;
 
