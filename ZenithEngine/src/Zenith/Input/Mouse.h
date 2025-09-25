@@ -11,6 +11,7 @@ namespace Zenith
 	{
 		friend class Window;
 		friend class Win32Window;
+		friend class LinuxWindow;
 	public:
 		class Event
 		{
