@@ -7,33 +7,33 @@ namespace Zenith
 
 	bool Input::IsKeyPressed(Key key) noexcept
 	{
-		return s_EventWindow->m_Keyboard.IsKeyPressed(static_cast<unsigned char>(key));
+		return s_EventWindow->m_Keyboard.IsKeyPressed(key);
 	}
 
-	bool Input::IsKeyPressed(unsigned char key) noexcept
+	bool Input::IsKeyPressed(uint16_t key) noexcept
 	{
-		return s_EventWindow->m_Keyboard.IsKeyPressed(key);
+		return s_EventWindow->m_Keyboard.IsKeyPressed(static_cast<Key>(key));
 	}
 
 	bool Input::IsKeyJustPressed(Key key) noexcept
 	{
-		return s_EventWindow->m_Keyboard.IsKeyJustPressed(static_cast<unsigned char>(key));
-	}
-
-	bool Input::IsKeyJustPressed(unsigned char key) noexcept
-	{
 		return s_EventWindow->m_Keyboard.IsKeyJustPressed(key);
 	}
-	
-	std::vector<unsigned char> Input::GetPressingKeys() noexcept
-	{
-		std::vector<unsigned char> pressedKeys;
 
-		for (unsigned short i = 0; i < s_EventWindow->m_Keyboard.s_KeyCount; i++)
+	bool Input::IsKeyJustPressed(uint16_t key) noexcept
+	{
+		return s_EventWindow->m_Keyboard.IsKeyJustPressed(static_cast<Key>(key));
+	}
+	
+	std::vector<uint16_t> Input::GetPressingKeys() noexcept
+	{
+		std::vector<uint16_t> pressedKeys;
+
+		for (uint16_t i = 0; i < s_EventWindow->m_Keyboard.s_KeyCount; i++)
 		{
-			if (s_EventWindow->m_Keyboard.IsKeyPressed(static_cast<unsigned char>(i)))
+			if (s_EventWindow->m_Keyboard.IsKeyPressed(static_cast<Key>(i)))
 			{
-				pressedKeys.push_back(static_cast<unsigned char>(i));
+				pressedKeys.push_back(i);
 			}
 		}
 

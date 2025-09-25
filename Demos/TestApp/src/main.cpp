@@ -1,13 +1,10 @@
-#include <Windows.h>
 #include <ZenithEngine.h>
 
 #include "TestApp.h"
 
-int APIENTRY WinMain(_In_		HINSTANCE	hInstance,
-	_In_opt_	HINSTANCE	hPrevInstance,
-	_In_		LPSTR		lpCmdLine,
-	_In_		int			nShowCmd)
+ENTRY_POINT
 {
+#if ZENITH_PLATFORM_WINDOWS
 	try
 	{
 		Zenith::ZenithApp* app = new TestApp();
@@ -30,6 +27,11 @@ int APIENTRY WinMain(_In_		HINSTANCE	hInstance,
 	{
 		MessageBoxA(NULL, "No details", "Undefined Exception", MB_ICONERROR);
 	}
+#else
+	Zenith::ZenithApp* app = new TestApp();
+	Zenith::AppManager::RunApplication(app);
+	delete app;
+#endif
 
 	return Zenith::AppManager::GetReturnValue();
 }

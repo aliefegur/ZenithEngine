@@ -2,12 +2,15 @@
 
 #include <queue>
 #include <bitset>
+#include "Key.h"
 
 namespace Zenith
 {
 	class Keyboard
 	{
 		friend class Window;
+		friend class Win32Window;
+		friend class LinuxWindow;
 	public:
 		class Event
 		{
@@ -32,8 +35,8 @@ namespace Zenith
 		Keyboard(const Keyboard&) = delete;
 		Keyboard& operator=(const Keyboard&) = delete;
 
-		bool IsKeyPressed(unsigned char keycode) const noexcept;
-		bool IsKeyJustPressed(unsigned char keycode) const noexcept;
+		bool IsKeyPressed(Key key) const noexcept;
+		bool IsKeyJustPressed(Key key) const noexcept;
 		char ReadChar() noexcept;
 
 		void EnableAutorepeat() noexcept;
@@ -41,8 +44,8 @@ namespace Zenith
 		bool IsAutorepeatEnabled() const noexcept;
 
 	private:
-		void OnKeyPress(unsigned char keycode) noexcept;
-		void OnKeyRelease(unsigned char keycode) noexcept;
+		void OnKeyPress(Key key) noexcept;
+		void OnKeyRelease(Key key) noexcept;
 		void OnChar(char character) noexcept;
 		void ClearState() noexcept;
 
@@ -58,7 +61,7 @@ namespace Zenith
 		inline static void TrimBuffer(std::queue<T>& buffer) noexcept;
 
 	public:
-		static constexpr unsigned int s_KeyCount = 256u;
+		static constexpr unsigned int s_KeyCount = 512u;
 
 	private:
 		static constexpr unsigned int s_BufferSize = 16u;

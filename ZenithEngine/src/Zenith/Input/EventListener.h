@@ -7,6 +7,8 @@ namespace Zenith
 	class EventListener
 	{
 		friend class Window;
+		friend class Win32Window;
+		friend class LinuxWindow;
 	public:
 		EventListener() = default;
 		EventListener(const EventListener&) = delete;

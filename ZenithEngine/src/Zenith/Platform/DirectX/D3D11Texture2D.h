@@ -1,3 +1,5 @@
+#if ZENITH_PLATFORM_WINDOWS
+
 #pragma once
 
 #include "Zenith/Renderer/Texture2D.h"
@@ -40,3 +42,5 @@ namespace Zenith
 		};
 	};
 }
+
+#endif // ZENITH_PLATFORM_WINDOWS

@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 
-set(ZENITH_SHARED true)
+set(ZENITH_SHARED false)
+
+include(FindPkgConfig)
 
 # Just for prevent warning
 project(MyCMakeProject)
@@ -10,4 +12,4 @@ add_subdirectory(ZenithEngine)
 
 # Demo projects
 add_subdirectory(Demos/TestApp)
-#add_subdirectory(Demos/FlappyBird)
+add_subdirectory(Demos/FlappyBird)

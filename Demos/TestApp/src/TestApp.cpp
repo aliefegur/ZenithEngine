@@ -6,7 +6,11 @@ TestApp::TestApp()
 	:
 	m_Shader(nullptr), m_BatchRenderer(nullptr), m_Texture(nullptr)
 {
-	m_Window = new Window(1280, 720, "Zenith Test App", false);
+#if ZENITH_PLATFORM_WINDOWS
+	m_Window = new Win32Window(1280, 720, "Zenith Test App", false);
+#else
+	m_Window = new LinuxWindow(1280, 720, "Zenith Test App", false);
+#endif
 	m_Viewport = new Viewport(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
 	m_Camera = new Camera(m_Viewport);
 	m_Camera->zNear = 0.0f;
@@ -24,7 +28,7 @@ void TestApp::Start()
 
 	m_Window->Show();
 	
-	constexpr Graphics::API api = Graphics::API::D3D11; // Change to OpenGL if needed
+	constexpr Graphics::API api = Graphics::API::OpenGL; // Change to OpenGL if needed
 	m_Window->CreateGraphicsContext(api);
 	m_Shader = Shader::LoadShader(
 		m_Window->GetGfx(), 

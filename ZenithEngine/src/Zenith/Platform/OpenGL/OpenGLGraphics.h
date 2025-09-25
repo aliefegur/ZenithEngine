@@ -1,9 +1,12 @@
 #pragma once
 
+#include "Zenith/API.h"
 #include "Zenith/Renderer/Graphics.h"
 #include "Zenith/Utils/ZenithException.h"
 
-#include <Windows.h>
+#if ZENITH_PLATFORM_WINDOWS
+	#include <Windows.h>
+#endif
 
 namespace Zenith
 {
@@ -34,8 +37,10 @@ namespace Zenith
 		void RenderImGui() override;
 		void ShutdownImGui() override;
 
+#if ZENITH_PLATFORM_WINDOWS
 	private:
 		HGLRC	m_Context;
 		HDC		m_Device;
+#endif
 	};
 }

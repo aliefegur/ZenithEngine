@@ -23,6 +23,7 @@ namespace Zenith
 		mutable std::string m_WhatBuffer;
 	};
 
+#if ZENITH_PLATFORM_WINDOWS
 	class ZenithWException : public std::exception
 	{
 	public:
@@ -41,6 +42,7 @@ namespace Zenith
 	protected:
 		mutable std::wstring m_WhatBuffer;
 	};
+#endif // ZENITH_PLATFORM_WINDOWS
 
 	class ResourceNotFoundException : public ZenithException
 	{

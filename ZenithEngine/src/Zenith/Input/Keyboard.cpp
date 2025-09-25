@@ -30,12 +30,14 @@ namespace Zenith
 		return m_Code;
 	}
 
-	bool Keyboard::IsKeyPressed(unsigned char keycode) const noexcept
+	bool Keyboard::IsKeyPressed(Key key) const noexcept
 	{
+		const uint16_t keycode = static_cast<uint16_t>(key);
 		return m_KeyStates[keycode];
 	}
-	bool Keyboard::IsKeyJustPressed(unsigned char keycode) const noexcept
+	bool Keyboard::IsKeyJustPressed(Key key) const noexcept
 	{
+		const uint16_t keycode = static_cast<uint16_t>(key);
 		return m_KeyStates[keycode] && !m_LastStates[keycode];
 	}
 	Keyboard::Event Keyboard::ReadKey() noexcept
@@ -98,14 +100,16 @@ namespace Zenith
 		return m_AutorepeatEnabled;
 	}
 
-	void Keyboard::OnKeyPress(unsigned char keycode) noexcept
+	void Keyboard::OnKeyPress(Key key) noexcept
 	{
+		const uint16_t keycode = static_cast<uint16_t>(key);
 		m_KeyStates[keycode] = true;
 		m_KeyBuffer.push(Event(Event::Type::Press, keycode));
 		TrimBuffer(m_KeyBuffer);
 	}
-	void Keyboard::OnKeyRelease(unsigned char keycode) noexcept
+	void Keyboard::OnKeyRelease(Key key) noexcept
 	{
+		const uint16_t keycode = static_cast<uint16_t>(key);
 		m_KeyStates[keycode] = false;
 		m_KeyBuffer.push(Event(Event::Type::Release, keycode));
 		TrimBuffer(m_KeyBuffer);

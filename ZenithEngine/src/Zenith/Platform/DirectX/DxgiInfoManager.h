@@ -1,3 +1,5 @@
+#if ZENITH_PLATFORM_WINDOWS
+
 #pragma once
 
 #include <dxgidebug.h>
@@ -22,3 +24,5 @@ namespace Zenith
 		IDXGIInfoQueue* pDxgiInfoQueue = nullptr;
 	};
 }
+
+#endif // ZENITH_PLATFORM_WINDOWS

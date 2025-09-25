@@ -1,3 +1,5 @@
+#if ZENITH_PLATFORM_WINDOWS
+
 #pragma once
 
 #include "Zenith/API.h"	
@@ -13,3 +15,5 @@ namespace Zenith
 		static DxgiInfoManager& GetInfoManager(D3D11Graphics* gfx) noexcept (!ZENITH_DEBUG);
 	};
 }
+
+#endif // ZENITH_PLATFORM_WINDOWS

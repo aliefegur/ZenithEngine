@@ -16,10 +16,10 @@ namespace Zenith
 
 		// Keyboard input methods
 		static bool IsKeyPressed(Key key) noexcept;
-		static bool IsKeyPressed(unsigned char key) noexcept;
+		static bool IsKeyPressed(uint16_t key) noexcept;
 		static bool IsKeyJustPressed(Key key) noexcept;
-		static bool IsKeyJustPressed(unsigned char key) noexcept;
-		static std::vector<unsigned char> GetPressingKeys() noexcept;
+		static bool IsKeyJustPressed(uint16_t key) noexcept;
+		static std::vector<uint16_t> GetPressingKeys() noexcept;
 
 		// Mouse input methods
 		static std::pair<int, int> GetMousePosition() noexcept;

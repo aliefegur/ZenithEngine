@@ -1,8 +1,8 @@
 #include "zenithpch.h"
 #include "Texture2D.h"
 #include "Zenith/Utils/ZenithException.h"
-#include <Zenith/Platform/OpenGL/OpenGLTexture2D.h>
-#include <Zenith/Platform/DirectX/D3D11Texture2D.h>
+#include "Zenith/Platform/OpenGL/OpenGLTexture2D.h"
+#include "Zenith/Platform/DirectX/D3D11Texture2D.h"
 
 namespace Zenith
 {
@@ -11,12 +11,12 @@ namespace Zenith
 		unsigned char pixelData[] = { 255, 255, 255, 255 };
 		switch (gfx->GetAPIType())
 		{
+#if ZENITH_PLATFORM_WINDOWS
 		case Graphics::API::D3D11:
 			return new D3D11Texture2D(gfx, pixelData, 1, 1, 4, 1, Filter::Point, Wrap::Clamp);
-			break;
+#endif
 		case Graphics::API::OpenGL:
 			return new OpenGLTexture2D(gfx, pixelData, 1, 1, 4, 1, Filter::Point, Wrap::Clamp);
-			break;
 		default:
 			// TODO: Throw exception
 			break;
@@ -27,8 +27,10 @@ namespace Zenith
 	{
 		switch (gfx->GetAPIType())
 		{
+#if ZENITH_PLATFORM_WINDOWS
 		case Graphics::API::D3D11:
 			return new D3D11Texture2D(gfx, imageFile, pixelPerUnit, forceRGBA, filter, wrap);
+#endif
 		case Graphics::API::OpenGL:
 			return new OpenGLTexture2D(gfx, imageFile, pixelPerUnit, forceRGBA, filter, wrap);
 		default:
@@ -41,8 +43,10 @@ namespace Zenith
 	{
 		switch (gfx->GetAPIType())
 		{
+#if ZENITH_PLATFORM_WINDOWS
 		case Graphics::API::D3D11:
 			return new D3D11Texture2D(gfx, pixels, width, height, channelCount, pixelPerUnit, filter, wrap);
+#endif
 		case Graphics::API::OpenGL:
 			return new OpenGLTexture2D(gfx, pixels, width, height, channelCount, pixelPerUnit, filter, wrap);
 		default:
