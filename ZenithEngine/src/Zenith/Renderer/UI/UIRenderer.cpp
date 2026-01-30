@@ -1,26 +1,48 @@
 #include "zenithpch.h"
 #include "UIRenderer.h"
 #include "Font.h"
-#include "../Stats.h"
+#include "Zenith/Renderer/Stats.h"
 #include "Zenith/Utils/ZenithException.h"
-#include "../../Platform/OpenGL/OpenGLShader.h"
+#include "Zenith/Platform/OpenGL/OpenGLShader.h"
+#include "Zenith/Platform/OpenGL/UI/OpenGLUIRenderer.h"
 
 namespace Zenith
 {
-	extern int				MAX_TEXTURES;
+	extern int MAX_TEXTURES;
+
+	UIRenderer* UIRenderer::Create(Graphics* gfx, Shader* t, Shader* i)
+	{
+		switch (gfx->GetAPIType())
+		{
+		case Graphics::API::OpenGL:
+			return new OpenGLUIRenderer(gfx, t, i);
+		case Graphics::API::D3D11:
+			// TODO: Implement for D3D11
+			break;
+		default:
+			// TODO: Throw an exception
+			break;
+		}
+	}
 
 	UIRenderer::UIRenderer(Graphics* gfx, Shader* textShader, Shader* imageShader)
 		:
-		m_Gfx(gfx)
+		m_Gfx(gfx),
+		m_TextShader(textShader),
+		m_ImageShader(imageShader)
 	{
-		InitializeTextRenderer(textShader);
-		InitializeImageRenderer(imageShader);
 	}
 
 	UIRenderer::~UIRenderer()
 	{
 		DestroyTextRenderer();
 		DestroyImageRenderer();
+	}
+
+	void UIRenderer::Initialize()
+	{
+		InitializeTextRenderer(m_TextShader);
+		InitializeImageRenderer(m_ImageShader);
 	}
 
 	void UIRenderer::Begin(const glm::ivec2& windowDimension)
@@ -60,7 +82,7 @@ namespace Zenith
 			offset.x += ch.Bearing.x * fontSize / (float)fontFamily->m_FontSize;
 			offset.y = -(ch.GlyphSize.y - ch.Bearing.y) * fontSize / (float)fontFamily->m_FontSize;
 			DrawChar(fontFamily, c, position + offset, fontSize, color);
-			offset.x += (ch.Advance >> 6) * fontSize / (float)fontFamily->m_FontSize;
+			offset.x += ch.Advance * fontSize / (float)fontFamily->m_FontSize;
 		}
 	}
 
@@ -76,7 +98,7 @@ namespace Zenith
 		for (auto& c : text)
 		{
 			const Font::Character ch = fontFamily->m_Characters[c];
-			textboxDimensions.x += (ch.Bearing.x + (ch.Advance >> 6)) * scaleFactor;
+			textboxDimensions.x += (ch.Bearing.x + ch.Advance) * scaleFactor;
 		}
 
 		switch (anchor)

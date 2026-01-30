@@ -4,7 +4,7 @@
 
 namespace Zenith
 {
-	class OpenGLUIRenderer : UIRenderer
+	class OpenGLUIRenderer : public UIRenderer
 	{
 	public:
 		OpenGLUIRenderer(Graphics* gfx, Shader* textShader, Shader* imageShader);

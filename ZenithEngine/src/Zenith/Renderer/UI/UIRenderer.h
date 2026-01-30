@@ -21,9 +21,13 @@ namespace Zenith
 	class UIRenderer
 	{
 	public:
+		static UIRenderer* Create(Graphics* gfx, Shader* textShader, Shader* imageShader);
+
+	public:
 		UIRenderer(Graphics* gfx, Shader* textShader, Shader* imageShader);
 		~UIRenderer();
 
+		void Initialize();
 		void Begin(const glm::ivec2& windowDimensions);
 		void End();
 
@@ -38,8 +42,8 @@ namespace Zenith
 		virtual void DestroyTextRenderer();
 		virtual void DestroyImageRenderer();
 
-		void BeginTextRenderer();
-		void BeginImageRenderer();
+		virtual void BeginTextRenderer();
+		virtual void BeginImageRenderer();
 		virtual void EndTextRenderer();
 		virtual void EndImageRenderer();
 

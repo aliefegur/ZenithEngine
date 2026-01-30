@@ -5,12 +5,16 @@
 #include <glm/vec2.hpp>
 
 #include "../Texture2D.h"
+#include "../Graphics.h"
 
 namespace Zenith
 {
 	class Font
 	{
 		friend class UIRenderer;
+	public:
+		static Font* Load(Graphics* gfx, const std::string& path, unsigned int fontSize = 64, Texture2D::Filter filterMode = Texture2D::Filter::Bilinear);
+
 	public:
 		struct Character
 		{

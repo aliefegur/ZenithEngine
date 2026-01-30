@@ -2,9 +2,25 @@
 #include "Font.h"
 #include "Zenith/Utils/ZenithException.h"
 #include "FontLoader.h"
+#include "Zenith/Platform/OpenGL/UI/OpenGLFont.h"
 
 namespace Zenith
 {
+	Font* Font::Load(Graphics* gfx, const std::string& path, unsigned int fontSize, Texture2D::Filter filterMode)
+	{
+		switch (gfx->GetAPIType())
+		{
+		case Graphics::API::OpenGL:
+			return new OpenGLFont(path, fontSize, filterMode);
+		case Graphics::API::D3D11:
+			// TODO: Implement for D3D11
+			break;
+		default:
+			// TODO: Throw an exception
+			break;
+		}
+	}
+
 	Font::Font(const std::string& path, unsigned int fontSize, Texture2D::Filter filterMode)
 	{
 		FontLoader::Face& face = FontLoader::LoadFace(path, fontSize);
