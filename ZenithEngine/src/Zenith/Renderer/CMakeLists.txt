@@ -16,4 +16,4 @@ target_sources(${PROJECT_NAME} PRIVATE	BatchRenderer.h
 										Viewport.cpp
 										)
 
-#add_subdirectory(UI)
+add_subdirectory(UI)

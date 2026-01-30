@@ -7,3 +7,5 @@ target_sources(${PROJECT_NAME} PRIVATE	OpenGLBatchRenderer.h
 										OpenGLTexture2D.h
 										OpenGLTexture2D.cpp
 										)
+
+add_subdirectory(UI)

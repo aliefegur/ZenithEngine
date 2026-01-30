@@ -8,6 +8,7 @@
 #include <fstream>
 #include <regex>
 #include <map>
+#include <unordered_map>
 #include <memory>
 
 // Windows
@@ -45,12 +46,3 @@
 #endif
 
 #include <stb/stb_image.h>
-
-// Freetype
-#if ZENITH_PLATFORM_WINDOWS
-#include <ft2build.h>
-#include FT_FREETYPE_H
-#else
-#include <freetype2/ft2build.h>
-#include FT_FREETYPE_H
-#endif

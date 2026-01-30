@@ -2,6 +2,7 @@
 
 #include "App.h"
 #include "Zenith/Utils/Time.h"
+#include "Zenith/Renderer/UI/FontLoader.h"
 
 namespace Zenith
 {
@@ -9,11 +10,12 @@ namespace Zenith
 		:
 		m_Window(nullptr)
 	{
-		
+		FontLoader::Init();
 	}
 
 	ZenithApp::~ZenithApp() 
 	{
+		FontLoader::Shutdown();
 	}
 
 	void ZenithApp::Start() 

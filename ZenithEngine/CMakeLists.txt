@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 
 project(ZenithEngine VERSION 0.0.1)
 
+# C++ 17 Standards
+set(CMAKE_CXX_STANDARD 17)
+
 # Zenith output directory for deriving projects
 if (WIN32)
 	set(ZENITH_DIR ${PROJECT_BINARY_DIR}/${CMAKE_CONFIGURATION_TYPES})
