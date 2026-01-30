@@ -53,7 +53,7 @@ namespace Zenith
 		}
 	}
 
-	FontLoader::Face& FontLoader::LoadFace(const std::string& path, unsigned int fontSize, unsigned int pixelSize)
+	FontLoader::Face& FontLoader::LoadFace(const std::string& path, unsigned int fontSize)
 	{
 		size_t key = HashFaceKey(path, fontSize);
 

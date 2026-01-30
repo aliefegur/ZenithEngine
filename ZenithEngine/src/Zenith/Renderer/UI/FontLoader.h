@@ -40,7 +40,7 @@ namespace Zenith
 	public:
 		static void Init();
 		static void Shutdown();
-		static Face& LoadFace(const std::string& path, unsigned int fontSize, unsigned int pixelSize);
+		static Face& LoadFace(const std::string& path, unsigned int fontSize);
 		static void UnloadFace(uint64_t face);
 		static void ClearCache();
 	};

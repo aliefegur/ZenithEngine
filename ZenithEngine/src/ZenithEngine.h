@@ -21,7 +21,6 @@
 #include "Zenith/Renderer/Stats.h"
 
 #include "Zenith/Renderer/UI/UIRenderer.h"
-#include "Zenith/Renderer/UI/ImGuiManager.h"
 
 #include "Zenith/Utils/Time.h"
 #include "Zenith/Utils/File.h"
