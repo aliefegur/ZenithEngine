@@ -11,7 +11,6 @@ namespace Zenith
 	{
 	public:
 		D3D11Texture2D(Graphics* gfx, unsigned char* pixels, int width, int height, int channelCount, unsigned int pixelPerUnit = 100u, Filter filter = Filter::Bilinear, Wrap wrap = Wrap::Clamp);
-		D3D11Texture2D(Graphics* gfx, const std::string& imageFile, unsigned int pixelPerUnit = 100u, bool forceRGBA = false, Filter filter = Filter::Bilinear, Wrap wrap = Wrap::Clamp);
 		~D3D11Texture2D();
 
 		void Bind(Graphics* gfx) noexcept override;

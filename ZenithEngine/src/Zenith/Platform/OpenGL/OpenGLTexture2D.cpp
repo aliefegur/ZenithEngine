@@ -10,12 +10,6 @@ namespace Zenith
 		GenerateTextureFromBytes(pixels, width, height, channelCount, filter, wrap);
 	}
 	
-	OpenGLTexture2D::OpenGLTexture2D(Graphics* gfx, const std::string& imageFile, unsigned int pixelPerUnit, bool forceRGBA, Filter filter, Wrap wrap)
-		:
-		Texture2D(gfx, imageFile, pixelPerUnit, forceRGBA, filter, wrap)
-	{
-	}
-	
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
 		glDeleteTextures(1, &m_TextureID);

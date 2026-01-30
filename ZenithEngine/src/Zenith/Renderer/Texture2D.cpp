@@ -25,18 +25,35 @@ namespace Zenith
 
 	Texture2D* Texture2D::LoadFromFile(Graphics* gfx, const std::string& imageFile, unsigned int pixelPerUnit, bool forceRGBA, Filter filter, Wrap wrap)
 	{
+		int desiredChannelCount = forceRGBA ? STBI_rgb_alpha : STBI_default;
+
+		int w, h, nChannels;
+
+		if (gfx->GetAPIType() == Graphics::API::OpenGL)
+			stbi_set_flip_vertically_on_load(true);
+
+		unsigned char* pixels = stbi_load(imageFile.c_str(), &w, &h, &nChannels, desiredChannelCount);
+
+		if (!pixels)
+		{
+			// Image not loaded
+			throw ResourceNotFoundException(__LINE__, __FILE__, imageFile);
+		}
+
 		switch (gfx->GetAPIType())
 		{
 #if ZENITH_PLATFORM_WINDOWS
 		case Graphics::API::D3D11:
-			return new D3D11Texture2D(gfx, imageFile, pixelPerUnit, forceRGBA, filter, wrap);
+			return new D3D11Texture2D(gfx, pixels, w, h, nChannels, pixelPerUnit, filter, wrap);
 #endif
 		case Graphics::API::OpenGL:
-			return new OpenGLTexture2D(gfx, imageFile, pixelPerUnit, forceRGBA, filter, wrap);
+			return new OpenGLTexture2D(gfx, pixels, w, h, nChannels, pixelPerUnit, filter, wrap);
 		default:
 			// TODO: Throw an exception for unsupported API
 			break;
 		}
+
+		stbi_image_free(pixels);
 	}
 
 	Texture2D* Texture2D::LoadFromMemory(Graphics* gfx, unsigned char* pixels, int width, int height, int channelCount, unsigned int pixelPerUnit, Filter filter, Wrap wrap)
@@ -60,27 +77,6 @@ namespace Zenith
 		m_Width(width), m_Height(height), m_ChannelCount(channelCount), m_PixelPerUnit(pixelPerUnit), m_Filter(filter), m_Wrap(wrap), m_Gfx(gfx)
 	{
 		GenerateTextureFromBytes(pixels, width, height, channelCount, filter, wrap);
-	}
-
-	Texture2D::Texture2D(Graphics* gfx, const std::string& imageFile, unsigned int pixelPerUnit, bool forceRGBA, Filter filter, Wrap wrap)
-		:
-		m_Gfx(gfx)
-	{
-		int desiredChannelCount = forceRGBA ? STBI_rgb_alpha : STBI_default;
-
-		stbi_set_flip_vertically_on_load(true);
-		unsigned char* pixels = stbi_load(imageFile.c_str(), &m_Width, &m_Height, &m_ChannelCount, desiredChannelCount);
-
-		if (!pixels)
-		{
-			// Image not loaded
-			throw ResourceNotFoundException(__LINE__, __FILE__, imageFile);
-		}
-
-		GenerateTextureFromBytes(pixels, m_Width, m_Height, m_ChannelCount, filter, wrap);
-
-		stbi_image_free(pixels);
-		m_PixelPerUnit = pixelPerUnit;
 	}
 
 	Texture2D::~Texture2D()
