@@ -11,7 +11,7 @@ FlappyBirdApp::FlappyBirdApp()
 	m_Bird(nullptr), m_PipeTexture(nullptr), m_PixelifySans(nullptr), m_Righteous(nullptr), m_UiRenderer(nullptr), m_TextShader(nullptr),
 	m_UiImageShader(nullptr)
 {
-	m_Window = new Window(800, 600, "DirectX 11 Context", false);
+	m_Window = Window::Create(800, 600, "Flappy Bird", false);
 
 	// Read high score
 	try
@@ -27,9 +27,6 @@ FlappyBirdApp::FlappyBirdApp()
 
 FlappyBirdApp::~FlappyBirdApp()
 {
-	// Shutdown ImGui
-	ImGuiManager::Shutdown();
-
 	// Delete game objects
 	delete m_Bg;
 	delete m_Bird;
@@ -76,34 +73,35 @@ void FlappyBirdApp::Start()
 	Input::SetupEventWindow(m_Window);
 
 	m_Window->Show();
-	m_Window->CreateGraphicsContext(Graphics::API::OpenGL);
+	m_Window->CreateGraphicsContext(Graphics::API::D3D11);
+
+	const auto gfx = m_Window->GetGfx();
 	
-	// Initialize ImGui
-	ImGuiManager::Initialize(m_Window);
-	/*
 	// Create rendering components
-	m_Shader = new Shader("res/shaders/sprite_vs.glsl", "res/shaders/sprite_fs.glsl");
-	m_TextShader = new Shader("res/shaders/ui_vs.glsl", "res/shaders/text_fs.glsl");
-	m_UiImageShader = new Shader("res/shaders/ui_vs.glsl", "res/shaders/sprite_fs.glsl");
-	m_Renderer = new BatchRenderer(m_Shader);
-	m_UiRenderer = new UIRenderer(m_TextShader, m_UiImageShader);
+	//m_Shader = Shader::LoadShader(gfx, "res/shaders/sprite_vs.glsl", "res/shaders/sprite_fs.glsl");
+	m_Shader = Shader::LoadShader(gfx, "res/shaders/SpriteVS.cso", "res/shaders/SpritePS.cso");
+	//m_TextShader = Shader::LoadShader(gfx, "res/shaders/ui_vs.glsl", "res/shaders/text_fs.glsl");
+	//m_UiImageShader = Shader::LoadShader(gfx, "res/shaders/ui_vs.glsl", "res/shaders/sprite_fs.glsl");
+	m_Renderer = BatchRenderer::Create(gfx, m_Shader);
+	/*m_UiRenderer = UIRenderer::Create(gfx, m_TextShader, m_UiImageShader);
+	m_UiRenderer->Initialize();*/
 	m_Viewport = new Viewport(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
 	m_Camera = new Camera(m_Viewport);
 	m_Camera->zNear = 0.0f;
-	*/
+	
 	// Loading textures
-	m_BackgroundTexture = new Texture2D("res/sprites/background-day.png");
-	m_PipeTexture = new Texture2D("res/sprites/pipe-green.png");
+	m_BackgroundTexture = Texture2D::LoadFromFile(gfx, "res/sprites/background-day.png");
+	m_PipeTexture = Texture2D::LoadFromFile(gfx, "res/sprites/pipe-green.png");
 	m_CharacterTextures = {
-		new Texture2D("res/sprites/yellowbird-downflap.png", 100u, false, Texture2D::Filter::Point),
-		new Texture2D("res/sprites/yellowbird-midflap.png", 100u, false, Texture2D::Filter::Point),
-		new Texture2D("res/sprites/yellowbird-upflap.png", 100u, false, Texture2D::Filter::Point),
+		Texture2D::LoadFromFile(gfx, "res/sprites/yellowbird-downflap.png", 100u, false, Texture2D::Filter::Point),
+		Texture2D::LoadFromFile(gfx, "res/sprites/yellowbird-midflap.png", 100u, false, Texture2D::Filter::Point),
+		Texture2D::LoadFromFile(gfx, "res/sprites/yellowbird-upflap.png", 100u, false, Texture2D::Filter::Point),
 	};
-	m_WhiteTexture = Texture2D::LoadWhiteTexture();
+	m_WhiteTexture = Texture2D::LoadWhiteTexture(gfx);
 
 	// Loading fonts
-	m_PixelifySans = new Font("res/fonts/PixelifySans.ttf", 128u, Texture2D::Filter::Point);
-	m_Righteous = new Font("res/fonts/Righteous.ttf", 128u);
+	/*m_PixelifySans = Font::Load(gfx, "res/fonts/PixelifySans.ttf", 128u, Texture2D::Filter::Point);
+	m_Righteous = Font::Load(gfx, "res/fonts/Righteous.ttf", 128u);*/
 
 	// Initialize audio components
 	m_AudioDevice = AudioDevice::Get();
@@ -146,7 +144,7 @@ void FlappyBirdApp::Start()
 void FlappyBirdApp::Update()
 {
 	ZenithApp::Update();
-	/*
+	
 	// Game logic update	
 	if (m_GameRunning)
 	{
@@ -176,25 +174,24 @@ void FlappyBirdApp::Update()
 	}
 
 	m_Camera->Update();
-	*/
+	
 	// Render game
-	m_Window->GetGfx()->ClearBuffer(1.0f, 0.0f, 0.0f, 1.0f);
-	/*
+	m_Window->GetGfx()->ClearBuffer(0.0f, 0.0f, 0.0f, 1.0f);
+	
 	RenderObjects();
-	RenderUI();
+	//RenderUI();
 
 #ifdef _DEBUG
 	RenderImGui();
 #endif
-	*/
+	
 	m_Window->GetGfx()->EndFrame();
 	m_Window->ProcessEvents();
-	/*
+	
 	m_Viewport->SetDimensions(0, 0, m_Window->GetWidth(), m_Window->GetHeight());
-	m_Viewport->Apply();
+	m_Viewport->Apply(m_Window->GetGfx());
 
 	m_ElapsedTime += Time::Delta();
-	*/
 }
 
 void FlappyBirdApp::StartGame()
@@ -290,7 +287,6 @@ void FlappyBirdApp::RenderUI()
 
 void FlappyBirdApp::RenderImGui()
 {
-	ImGuiManager::NewFrame();
 	ImGui::Begin("Rendering Stats");
 
 	ImGui::Text("FPS: %g (%g ms)", 1.0f / Time::Delta(), 1000.0f * Time::Delta());
@@ -308,7 +304,6 @@ void FlappyBirdApp::RenderImGui()
 	ImGui::Text("Traingle Count: %llu", RendererStats::GetTriangleCount());
 
 	ImGui::End();
-	ImGuiManager::EndFrame();
 }
 
 void FlappyBirdApp::OnBirdBetweenPipes(bool isCollide)

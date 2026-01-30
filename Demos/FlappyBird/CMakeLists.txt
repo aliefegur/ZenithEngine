@@ -16,12 +16,12 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ZenithEngine opengl32)
 # Post Build Commands
 add_custom_command(	TARGET ${PROJECT_NAME} POST_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
-					${CMAKE_SOURCE_DIR}/Demos/${PROJECT_NAME}/res/
-					${CMAKE_BINARY_DIR}/Demos/${PROJECT_NAME}/res/
+					${PROJECT_SOURCE_DIR}/res/
+					${PROJECT_BINARY_DIR}/res/
 					)
 add_custom_command(	TARGET ${PROJECT_NAME} POST_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
-					${CMAKE_SOURCE_DIR}/ZenithEngine/res/
+					${CMAKE_BINARY_DIR}/ZenithEngine/res/
 					${CMAKE_BINARY_DIR}/Demos/${PROJECT_NAME}/res/
 
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
