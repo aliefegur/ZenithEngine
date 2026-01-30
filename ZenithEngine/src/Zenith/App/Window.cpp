@@ -4,18 +4,29 @@
 #include "Zenith/Renderer/Graphics.h"
 #include "Zenith/Platform/OpenGL/OpenGLGraphics.h"
 #if ZENITH_PLATFORM_WINDOWS
+#include "Zenith/Platform/Windows/Win32Window.h"
 #include "Zenith/Platform/DirectX/D3D11Graphics.h"
+#elif ZENITH_PLATFORM_LINUX
+#include "Zenith/Platform/Linux/LinuxWindow.h"
 #endif
 
 #include <imgui.h>
 
 namespace Zenith
 {
+	Window* Window::Create(int width, int height, const std::string& title, bool fullScreen)
+	{
+#if ZENITH_PLATFORM_WINDOWS
+		return new Win32Window(width, height, title, fullScreen);
+#elif ZENITH_PLATFORM_LINUX
+		return new LinuxWindow(width, height, title, fullScreen);
+#endif
+	}
+
 	Window::Window(int width, int height, const std::string& title, bool fullScreen)
 		:
 		m_Width(width), m_Height(height), m_Title(title), m_IsFullscreen(fullScreen), m_Graphics(nullptr), m_HasFocus(false), m_IsShown(false), m_EventListener(nullptr), m_XPos(0), m_YPos(0)
 	{
-		
 	}
 
 	Window::~Window()

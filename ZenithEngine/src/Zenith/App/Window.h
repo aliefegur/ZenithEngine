@@ -12,6 +12,9 @@ namespace Zenith
 	{		
 		friend class Input;
 	public:
+		static Window* Create(int width, int height, const std::string& title, bool fullScreen);
+
+	public:
 		Window(int width, int height, const std::string& title, bool fullScreen);
 		virtual ~Window();
 
